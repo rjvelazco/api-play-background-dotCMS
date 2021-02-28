@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Api-img</title>
+    <link rel="stylesheet" href="./assets/css/styles.css">
+</head>
+<body>
+    
+    <div class="img-api-container">
+        <div class="edit-controls" id="controls">
+
+            <div class="setFocal">
+                <span>Focal Points</span>
+                <br>
+                <button id="set">Set</button>
+            </div>
+            <div class="size">
+                
+                <span>resize</span>
+                <br>
+                <label for="width">X</label>
+                <br>
+                <input type="text" id="width" value="100">
+                <br>
+                <label for="height">Y</label>
+                <br>
+                <input type="text" id="height" value="Auto">
+            </div>
+
+             <div class="size">
+                
+                <span>resize</span>
+                <br>
+                <label for="crop-x">X</label>
+                <br>
+                <input type="text" id="crop-x" value="100">
+                <br>
+                <label for="crop-y">Y</label>
+                <br>
+                <input type="text" id="crop-y" value="Auto">
+                <button id="crop">crop</button>
+            </div>
+
+            <div class="zoom">
+                <label for="zoom">Zoom</label>
+                <br>
+                <input type="range" value="1" id="zoom" min="0" max="2" step="0.1">
+            </div>
+
+            <div class="rotate">
+                <label for="rotate">Rotate</label>
+                <input type="text" id="rotate" value="0">
+                <button id="flip">flip</button>
+                <button id="right">right</button>
+            </div>
+
+            <div class="filters">
+                <!-- <input type="range" value="0" id="range-gray" min="0" max="100"> -->
+                <label for="bright">Brightness</label>
+                <br>
+                <input type="range" value="0" id="brightness" min="-100" max="100">
+                <br>
+                <label for="hue">hue</label>
+                <br>
+                <input type="range" value="0" id="hue" min="-100" max="100">
+                <br>
+                <label for="saturation">Saturation</label>
+                <br>
+                <input type="range" value="0" id="saturation" min="-100" max="100">
+            </div>
+        </div>
+
+        <div class="img-continer">
+            <div class="edit-img-container">
+                <div class="focalpoint show"></div>
+                <img src="https://demo.dotcms.com/contentAsset/image/17e7dc47-79d0-4525-87a4-40fb3429cbd4/fileAsset" alt="dotCMS" id="img">
+                <!-- /filter/hsb_h/-1.0/hsb_s/0.0/hsb_b/1.00 -->
+                <!-- /hsb_h/-1.0/hsb_s/0.0/hsb_b/1.0 -->
+            </div>
+        </div>
+    </div>
+
+
+    <div class="url-container">
+        <div class="card-body-img-api">
+            <div class="textContainer">
+                https://demo.dotcms.com/contentAsset/image/17e7dc47-79d0-4525-87a4-40fb3429cbd4/fileAsset<span class="params"></span>
+                <span id="endPoint"></span>
+                <span class="cursor-effect"></span>
+            </div>
+        </div>
+    </div>
+    <script src="./assets/js/main.js"></script>
+
+</body>
+</html>

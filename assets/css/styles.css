@@ -22,6 +22,7 @@
 body{
     font-family: 'open sans', sans-serif;
     /* text-align: center; */
+    background: #f2f2f2;
 }
 
 
@@ -35,18 +36,23 @@ body{
 }
 
 .controls-container{
-    width: 250px;
+    width: 300px;
     /* height: 500px; */
     padding: 10px;
+    padding-left: 20px;
+    box-shadow: 5px 0px 5px rgba(0,0,0,.2);
+    background: #fff;
+    z-index: 2;
 }
 
 .body-container{
-    width: calc(100% - 250px);
-    height: 650px;
+    width: calc(80% - 300px);
+    height: 740px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    border-bottom: 1px solid var(--input-border);
 }
 
 .body-container .url-group-container{
@@ -54,23 +60,16 @@ body{
     justify-content: space-between;
     align-items: center;
     height: 50px;
-    background: #fff;
+    background: #fff !important;
     width: 100%;
     padding: 0px 40px;
+    margin-top: 10px;
 }
 
 .body-container .image-container{
-    height: calc(100% - 50px);
-    background: url('../img/no-background.jpg');
-    min-width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    overflow: auto;
-}
-
-.body-container .image-container .img-container{
-    height: 100%;
+    height: calc(100% - 60px);
+    /* background: url('../img/no-background.jpg'); */
+    background: #ccc;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -78,9 +77,18 @@ body{
     overflow: auto;
 }
 
-.body-container .image-container .img-container .image-edit-container{
+.body-container .image-container .img-container{
+    height: 100%;
+    max-height: 590px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    overflow: auto;
+}
+
+.body-container .image-container  .image-edit-container{
     position: relative;
-    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -122,6 +130,7 @@ body{
 .crop-height{
     width: 80px;
     display: flex;
+    background-color:var(--input-background);
     justify-content:center;
     align-items: center;
     border: 1px solid var(--input-border);
@@ -161,13 +170,15 @@ body{
 }
 
 .input-value{
-    font-size: 10px;
-    padding: 1px 3px;
+    display: inline-block;
+    font-size: 12px;
+    padding: 2px 3px;
+    text-align: center;
     background-color: var(--input-background);
     color: var(--input-font-color);
     border: 1px solid var(--input-border);
     border-radius: 5px;
-    min-width: 34px;
+    min-width: 45px !important;
     text-align: right;
 }
 
@@ -175,10 +186,11 @@ body{
     width: 50px;
     padding: 4px 0px;
     border:none;
+    background-color: var(--input-background);
 }
 
 .rotate-input{
-    width: 45px;
+    width: 65px;
     background: var(--input-background);
     border: 1px solid var(--input-border);
     padding: 4px 5px;
@@ -218,6 +230,18 @@ body{
 
 .params{
     color: var(--params-color);
+}
+
+.fixed{
+    position: fixed;
+    bottom: 0%;
+    left: calc(50% - 250px);
+    min-width: 500px;
+    text-align: center;
+}
+
+.cursor{
+    cursor: pointer;
 }
 
 select{
@@ -288,6 +312,7 @@ select:focus{
 }
 
 .btn-rotate{
+    font-size: 14px;
     padding: 5px 10px;
 }
 

@@ -5,10 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image - Api</title>
-    <link rel="stylesheet" href="./assets/css/styles.css">
     <script src="https://kit.fontawesome.com/e896e08ad9.js" crossorigin="anonymous"></script>
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link rel="stylesheet" href="./assets/css/styles.css">
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>  -->
 </head>
 <body>
     
@@ -24,7 +24,7 @@
             <div class="control-group">
                 <label for="quality" class="title">Quality</label>
                 <div class="range-control-group">
-                    <input type="range" value="100" id="quiality" min="0" max="100">
+                    <input type="range" value="100" id="quality" min="0" max="100">
                     <span class="input-value">100%</span>
                 </div>
             </div>
@@ -50,11 +50,11 @@
                 <span class="title">Crop</span>
                 <div class="crop-control-group">
                     <div class="crop-width">
-                        <input type="text" class="crop-input" id="crop-x" value="1250">
+                        <input type="text" class="crop-input" id="crop-x" value="250">
                         <small>W</small>
                     </div>
                     <div class="crop-height">
-                        <input type="text" class="crop-input" id="crop-y" value="400">
+                        <input type="text" class="crop-input" id="crop-y" value="250">
                         <small>Y</small>
                     </div>
                     <button  class="btn btn-flip" id="crop">crop</button>
@@ -65,8 +65,8 @@
                 <label for="rotate" class="title">Rotate</label>
                 <div class="rotate-control-group">
                     <input type="text" class="rotate-input" id="rotate" value="0">
-                    <button id="flip" class="btn btn-rotate">Flip</button>
-                    <button id="flip-y" class="btn btn-rotate">Flip</button>
+                    <button id="flip" class="btn btn-rotate">FlipX</button>
+                    <button id="flip-y" class="btn btn-rotate">FlipY</button>
                     <i class="fas fa-undo-alt undo"></i>
                 </div>
             </div>
@@ -91,23 +91,23 @@
         </div>
         <div class="body-container">
             <div class="url-group-container">
-                <span class="title bigger">REQUEST URL</span>
+                <span class="title bigger">REQUEST URL: </span>
                 <div class="url-container">
                     https://demo.dotcms.com/contentAsset/image/17e7dc47-79d0-4525-87a4-40fb3429cbd4/fileAsset<span class="params"></span>
                 </div>
-                <i class="far fa-clipboard fa-lg"></i>
+                <i class="far fa-clipboard fa-lg cursor" id="clip"></i>
             </div>
             <div class="image-container">
-                <div class="img-container">
                     <div class="image-edit-container">
                         <div class="focal-point show"></div>
                         <img src="https://demo.dotcms.com/contentAsset/image/17e7dc47-79d0-4525-87a4-40fb3429cbd4/fileAsset" alt="dotCMS" id="img">
                     </div>
-                </div>
+            </div>
+            <div class="alert alert-primary fixed d-none" id="alert" role="alert">
+                The URL has been copied
             </div>
         </div>
     </div>
-
     <script src="./assets/js/main.js"></script>
 
 </body>

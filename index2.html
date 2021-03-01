@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Api-img</title>
+    <link rel="stylesheet" href="./assets/css/styles.css">
+</head>
+<body>
+    
+    <div class="img-api-container">
+        <div class="edit-controls" id="controls">
+
+            <div class="sub-container format">
+                <label for="format" class="title">Format</label>
+                <select id="format" class="select">
+                    <option value="auto">Auto</option>
+                    <option value="manual">Manual</option>
+                </select>
+            </div>
+
+            <div class="sub-container quality">
+                <label for="quality" class="title">Quality</label>
+                <div class="range-container">
+                    <input type="range" value="100" id="quality" min="0" max="100">
+                    <span class="input-value">100%</span>
+                </div>
+            </div>
+            
+            <div class="sub-container zoom">
+                <label for="zoom" class="title">Zoom</label>
+                <div class="range-container">
+                    <input type="range" value="1" id="zoom" min="0" max="2" step="0.1">
+                    <span class="input-value">100%</span>
+                </div>
+            </div>
+
+            <div class="sub-container setFocal">
+                <span class="title">Focal Points</span>
+                <div class="focal-container">
+                    <div class="coordenadas">
+                        <span class="coordenada">50 <span class="coord">X</span></span>
+                        <span class="coordenada">50 <span class="coord">Y</span></span>
+                    </div>
+                    <button id="set" class="btn-focal">Set</button>
+                </div>
+            </div>
+            
+            <div class="sub-container crop">
+                <span class="title">Crop</span>
+                <div class="container-crop">
+                    <div class="crop-container">
+                        <input class="crop-input"type="text" id="crop-x" value="100">
+                        <span>W</span>
+                    </div>
+                    <div class="crop-container">
+                        <input class="crop-input"type="text" id="crop-y" value="100">
+                        <span>Y</span>
+                    </div>
+                    <button id="crop">crop</button>
+                </div>
+                
+            </div>
+
+            <div class="sub-container rotate">
+                <label for="rotate" class="title">Rotate</label>
+                <div class="rotate-container">
+                    <input type="text" id="rotate" value="0">
+                    <button id="flip" class="btn-focal">flip</button>
+                    <button id="right" class="btn-focal">right</button>
+                </div>
+            </div>
+            <hr>
+            <div class="sub-container filters">
+                <!-- <input type="range" value="0" id="range-gray" min="0" max="100"> -->
+                <label for="bright" class="title">Brightness</label>
+                <div class="range-container">
+                    <input type="range" value="0" id="brightness" min="-100" max="100">
+                    <span class="input-value">100%</span>
+                </div>
+                
+                <label for="hue" class="title">hue</label>
+                <div class="range-container">
+                    <input type="range" value="0" id="hue" min="-100" max="100">
+                    <span class="input-value">0%</span>
+                </div>
+                <label for="saturation" class="title">Saturation</label>
+                <div class="range-container">
+                    <input type="range" value="0" id="saturation" min="-100" max="100">
+                    <span class="input-value">0%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="img-contianer">
+            <div class="edit-img-container">
+                <div class="focalpoint show"></div>
+                <img src="https://demo.dotcms.com/contentAsset/image/17e7dc47-79d0-4525-87a4-40fb3429cbd4/fileAsset" alt="dotCMS" id="img">
+                <!-- /filter/hsb_h/-1.0/hsb_s/0.0/hsb_b/1.00 -->
+                <!-- /hsb_h/-1.0/hsb_s/0.0/hsb_b/1.0 -->
+            </div>
+        </div>
+    </div>
+
+
+    <div class="url-container">
+        <div class="card-body-img-api">
+            <div class="textContainer">
+                https://demo.dotcms.com/contentAsset/image/17e7dc47-79d0-4525-87a4-40fb3429cbd4/fileAsset<span class="params"></span>
+                <span id="endPoint"></span>
+                <span class="cursor-effect"></span>
+            </div>
+        </div>
+    </div>
+    <script src="./assets/js/main.js"></script>
+
+</body>
+</html>

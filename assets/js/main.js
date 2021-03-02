@@ -14,7 +14,8 @@ inputValues     = document.querySelectorAll('.input-value'),
 undos           = document.querySelectorAll('.undo'),
 clip            = document.querySelector('#clip'),
 alert           = document.querySelector('#alert'),
-setbtn          = document.querySelector('#set');
+setbtn          = document.querySelector('#set'),
+loading         = document.querySelector('#loading');
 
 
 // BASE URL
@@ -44,7 +45,6 @@ let HBS = filters = rotate = resize = crop = flip = quality = format = paramsURL
 
 
 // Events
-
 controls.addEventListener('click', (e)=>{
     eventSelector(e.target, e.target.value, false);
 });
@@ -60,7 +60,6 @@ controls.addEventListener('input', (e)=>{
 
 
 const eventSelector = (target, value, updateInputs)=>{
-
     switch(target.getAttribute('id')){
         case 'format':
             format = (value === 'auto')? '': `/${value}`;
@@ -129,6 +128,10 @@ const eventSelector = (target, value, updateInputs)=>{
         case 'flip':
             paramsFlip();
         break;
+        case 'flip-y':
+            rotateInput.value = (rotateInput.value == 180)? 0: 180;
+            paramsRotate(rotateInput.value);
+        break;
         case 'brightness':
             if(updateInputs){
                 inputValues[2].innerHTML = `${value}%`;
@@ -182,6 +185,7 @@ const eventSelector = (target, value, updateInputs)=>{
         urlBuilder();
         setNewUrl(paramsURL);
         setParamsInput(paramsURL);
+        loading.classList.remove('d-none');
     }
 }
 
@@ -280,3 +284,10 @@ const setCoordinate = (x,y)=>{
     coordinates[0].innerHTML = `${x}<small>X</small>`;
     coordinates[1].innerHTML = `${y}<small>Y</small>`;
 }
+
+// On Load Image
+img.addEventListener('load', ()=>{
+
+    loading.classList.add('d-none');
+
+});

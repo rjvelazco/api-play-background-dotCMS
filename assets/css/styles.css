@@ -216,28 +216,33 @@ body{
     position: absolute;
     width: 10px;
     height: 10px;
+    font-size: 25px;
     border-radius: 100%;
     left: 50%;
     top: 50%;
-    background: var(--focal-point);
+    color: #f00;
     z-index: 10;
     display: none;
+    justify-content:center;
+    align-items:center;
+    cursor: pointer;
 }
 
 .show{
-    display: inline-block;
+    display: flex;
 }
 
 .params{
     color: var(--params-color);
 }
 
-.fixed{
+.alert-message{
     position: fixed;
     bottom: 0%;
-    left: calc(50% - 250px);
-    min-width: 500px;
+    left: calc(50% - 500px);
+    min-width: 1000px;
     text-align: center;
+    transform: all .2s ease;
 }
 
 .cursor{

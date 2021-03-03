@@ -2,10 +2,10 @@
 // DOM ELEMENTS 
 
 const controls  = document.querySelector('#controls'),
-imgContainer    = document.querySelector('.image-container'),
+imgContainer    = document.querySelector('#image-container'),
 img             = document.querySelector('#img'),
-paramsContainer = document.querySelector('.params'),
-focalPoints     = document.querySelector('.focal-point');
+paramsContainer = document.querySelector('#params'),
+focalPoints     = document.querySelector('#focal-point');
 rotateInput     = document.querySelector('#rotate'),
 cropInputX      = document.querySelector('#crop-x'),
 cropInputY      = document.querySelector('#crop-y'),
@@ -25,13 +25,13 @@ btnSet          = document.querySelector('#set');
 // BASE URL
 const baseURL = 'https://demo.dotcms.com/contentAsset/image/f67e0a14-b16b-47fc-ae5c-f711333b04c1/image';
 
-
+const imageRect = img.getBoundingClientRect();
 // ORIGINAL SIZE
-const originalW = img.getBoundingClientRect().width,
-originalH       = img.getBoundingClientRect().height;
+const originalW = imageRect.width,
+originalH       = imageRect.height;
 
-let imgWidth    = img.getBoundingClientRect().width;
-imgHeight       = img.getBoundingClientRect().height;
+let imgWidth    = imageRect.width;
+imgHeight       = imageRect.height;
 
 // IMAGE CONTAINER SIZE
 const containerW = imgContainer.getBoundingClientRect().width;
@@ -50,14 +50,13 @@ let HBS = filters = rotate = resize = crop = flip = quality = format = paramsURL
 
 // Events
 controls.addEventListener('click', (e)=>{
-    const posibleOption = ['flip','flip-y','set', 'crop', 'undo-crop', 'undo-rotate'],
+    const posibleOption = ['flip','flip-y', 'crop', 'undo-crop', 'undo-rotate'],
     option              = e.target.getAttribute('id');
 
     if(posibleOption.includes(option)){
         eventSelector(e.target, e.target.value, false);
-    } else if(option === 'undo-set'){
-        eventSelector(e.target, e.target.value, true);
     }
+    eventSelector(e.target, e.target.value, true);
 });
 
 controls.addEventListener('change', (e)=>{
@@ -113,14 +112,13 @@ const eventSelector = (target, value, updateInputs)=>{
         break;
         case 'set':
             focalPoints.classList.toggle('show');
-
             if (focalPoints.classList.contains('show')){
                 img.addEventListener('click', setFocalPoint);
                 undos[0].classList.add('undo-active');
-                btnCrop.disabled = false;
+                target.innerHTML = 'Unset';
             } else{
                 undos[0].classList.remove('undo-active');
-                btnCrop.disabled = true;
+                target.innerHTML = 'Set';
                 resetFocalPoint();
             }
         break;
@@ -128,7 +126,7 @@ const eventSelector = (target, value, updateInputs)=>{
             value = +value;
             cropX = (value >= imgWidth)? imgWidth: value;
 
-            target.value = cropX;
+            target.value = Math.round(cropX);
 
             // Active the undo
             undos[1].classList.add('undo-active');
@@ -137,7 +135,7 @@ const eventSelector = (target, value, updateInputs)=>{
             value = + value;
             cropY = (value >= imgHeight)? imgHeight: value;
 
-            target.value = cropY;
+            target.value = Math.round(cropY);
             // Active the undo
             undos[1].classList.add('undo-active');
         break;

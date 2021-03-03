@@ -51,13 +51,15 @@
             <div class="control-group">
                 <span class="title">Crop</span>
                 <div class="crop-control-group">
-                    <div class="crop-width">
-                        <input type="text" class="crop-input" id="crop-x" value="250">
-                        <small>W</small>
-                    </div>
-                    <div class="crop-height">
-                        <input type="text" class="crop-input" id="crop-y" value="250">
-                        <small>Y</small>
+                    <div class="crop-group">
+                        <div class="crop-width">
+                            <input type="text" class="crop-input" id="crop-x" value="250">
+                            <small>W</small>
+                        </div>
+                        <div class="crop-height">
+                            <input type="text" class="crop-input" id="crop-y" value="250">
+                            <small>Y</small>
+                        </div>
                     </div>
                     <button  class="btn btn-crop" id="crop" disabled="true">Crop</button>
                     <i class="fas fa-undo-alt cursor undo" id="undo-crop"></i>
@@ -66,42 +68,52 @@
             <div class="control-group">
                 <label for="rotate" class="title">Rotate</label>
                 <div class="rotate-control-group">
-                    <div class="rotate-control-group-value">
-                        <input type="text" class="rotate-input" id="rotate" value="0">
-                        <span class="deg-icon">&deg;</span>
+                   <div class="rotate-control-container">
+                        <div class="rotate-control-group-value">
+                            <input type="text" class="rotate-input" id="rotate" value="0">
+                            <span class="deg-icon">&deg;</span>
+                        </div>
+                   </div>
+                    <div class="rotate-btn-group">
+                        <button id="flip" class="btn btn-rotate">
+                            <svg class="horizontal" xmlns="http://www.w3.org/2000/svg" width="32" height="33" viewBox="0 0 32 33" fill="none">
+                                <path d="M0 32.5L14.6667 0.5V32.5H0Z" fill="#9A9999"/>
+                                <path d="M32 32.5L17.3333 0.5V32.5H32Z" fill="#D8D8D8"/>
+                            </svg>
+                        </button>
+                        <button id="flip-y" class="btn btn-rotate">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="33" viewBox="0 0 32 33" fill="none">
+                                <path d="M0 32.5L14.6667 0.5V32.5H0Z" fill="#9A9999"/>
+                                <path d="M32 32.5L17.3333 0.5V32.5H32Z" fill="#D8D8D8"/>
+                            </svg>
+                        </button>
                     </div>
-                    <button id="flip" class="btn btn-rotate">
-                        <svg class="horizontal" xmlns="http://www.w3.org/2000/svg" width="32" height="33" viewBox="0 0 32 33" fill="none">
-                            <path d="M0 32.5L14.6667 0.5V32.5H0Z" fill="#9A9999"/>
-                            <path d="M32 32.5L17.3333 0.5V32.5H32Z" fill="#D8D8D8"/>
-                        </svg>
-                    </button>
-                    <button id="flip-y" class="btn btn-rotate">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="33" viewBox="0 0 32 33" fill="none">
-                            <path d="M0 32.5L14.6667 0.5V32.5H0Z" fill="#9A9999"/>
-                            <path d="M32 32.5L17.3333 0.5V32.5H32Z" fill="#D8D8D8"/>
-                        </svg>
-                    </button>
                     <i class="fas fa-undo-alt cursor undo" id="undo-rotate"></i>
                 </div>
             </div>
             <hr>
             <div class="control-group mt-4">
-                <label for="brightness" class="title">Brightness</label>
-                <div class="range-control-group">
-                    <input type="range" id="brightness" value="0" min="-100" max="100">
-                    <span class="input-value">0%</span>
+                <div class="control-group">
+                    <label for="brightness" class="title">Brightness</label>
+                    <div class="range-control-group">
+                        <input type="range" id="brightness" value="0" min="-100" max="100">
+                        <span class="input-value">0%</span>
+                    </div>
                 </div>
-                <label for="hue" class="title">Hue</label>
-                <div class="range-control-group">
-                    <input type="range" id="hue" value="0" min="-100" max="100">
-                    <span class="input-value">0%</span>
-                </div>
-                <label for="saturation" class="title">Saturation</label>
-                <div class="range-control-group">
-                    <input type="range" id="saturation" min="-100" max="100">
-                    <span class="input-value">0%</span>
-                </div>
+               <div class="control-group">
+                    <label for="hue" class="title">Hue</label>
+                    <div class="range-control-group">
+                        <input type="range" id="hue" value="0" min="-100" max="100">
+                        <span class="input-value">0%</span>
+                    </div>
+               </div>
+               <div class="control-group">
+                    <label for="saturation" class="title">Saturation</label>
+                    <div class="range-control-group">
+                        <input type="range" id="saturation" min="-100" max="100">
+                        <span class="input-value">0%</span>
+                    </div>
+               </div>
             </div>
         </div>
         <div class="body-container">
@@ -122,7 +134,6 @@
             <div class="image-container">
                 <div class="image-edit-container">
                     <div class="loading d-none" id="loading">
-                        <img src="https://dotcms.com/dA/99fe3769-d649/256w/dotcms.png" alt="dotCMS">
                         <div class="loadingio-spinner-ripple">
                             <div class="loader">
                                 <div></div>

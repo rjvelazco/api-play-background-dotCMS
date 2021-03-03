@@ -218,7 +218,7 @@ const eventSelector = (target, value, updateInputs)=>{
         setNewUrl(paramsURL);
         setParamsInput(paramsURL);
         loading.classList.remove('d-none');
-        img.classList.add('d-none');
+        // img.classList.add('d-none');
     }
 }
 
@@ -326,7 +326,7 @@ img.addEventListener('load', ()=>{
     // TODO
     // MOVE THIS TO IMG.ONLOAD();
     loading.classList.add('d-none');
-    img.classList.remove('d-none');
+    // img.classList.remove('d-none');
 
     imgWidth  = img.getBoundingClientRect().width,
     imgHeight = img.getBoundingClientRect().height;

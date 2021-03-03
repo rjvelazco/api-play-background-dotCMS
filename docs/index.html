@@ -61,7 +61,7 @@
                             <small>Y</small>
                         </div>
                     </div>
-                    <button  class="btn btn-crop" id="crop" disabled="true">Crop</button>
+                    <button  class="btn btn-crop" id="crop">Crop</button>
                     <i class="fas fa-undo-alt cursor undo" id="undo-crop"></i>
                 </div>
             </div>
@@ -120,7 +120,7 @@
             <div class="url-group-container">
                 <span class="title bigger">REQUEST URL: </span>
                 <div class="url-container">
-                    https://demo.dotcms.com/contentAsset/image/f67e0a14-b16b-47fc-ae5c-f711333b04c1/image<span class="params"></span>
+                    https://demo.dotcms.com/contentAsset/image/f67e0a14-b16b-47fc-ae5c-f711333b04c1/image<span class="params" id="params"></span>
                 </div>
                 <svg id="clip" class="clip cursor" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="160px" height="159px" viewBox="0 0 160 159" version="1.1">
                     <title>Slice</title>
@@ -131,7 +131,7 @@
                 </svg>
                 <!-- <i class="far fa-clipboard fa-lg cursor" ></i> -->
             </div>
-            <div class="image-container">
+            <div class="image-container" id="image-container">
                 <div class="image-edit-container">
                     <div class="loading d-none" id="loading">
                         <div class="loadingio-spinner-ripple">
@@ -141,7 +141,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="focal-point">+</div>
+                    <div class="focal-point" id="focal-point">+</div>
                     <img src="https://demo.dotcms.com/contentAsset/image/f67e0a14-b16b-47fc-ae5c-f711333b04c1/image" alt="dotCMS" id="img">
                 </div>
             </div>

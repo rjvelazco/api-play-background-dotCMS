@@ -17,9 +17,13 @@ alert           = document.querySelector('#alert'),
 setbtn          = document.querySelector('#set'),
 loading         = document.querySelector('#loading');
 
+// BOTONS
+const btnCrop   = document.querySelector('#crop'),
+btnSet          = document.querySelector('#set');
+
 
 // BASE URL
-const baseURL = 'https://demo.dotcms.com/contentAsset/image/17e7dc47-79d0-4525-87a4-40fb3429cbd4/fileAsset';
+const baseURL = 'https://demo.dotcms.com/contentAsset/image/f67e0a14-b16b-47fc-ae5c-f711333b04c1/image';
 
 
 // ORIGINAL SIZE
@@ -46,20 +50,46 @@ let HBS = filters = rotate = resize = crop = flip = quality = format = paramsURL
 
 // Events
 controls.addEventListener('click', (e)=>{
-    eventSelector(e.target, e.target.value, false);
+    const posibleOption = ['flip','flip-y','set', 'crop', 'undo-crop', 'undo-rotate'],
+    option              = e.target.getAttribute('id');
+
+    if(posibleOption.includes(option)){
+        eventSelector(e.target, e.target.value, false);
+    } else if(option === 'undo-set'){
+        eventSelector(e.target, e.target.value, true);
+    }
 });
 
 controls.addEventListener('change', (e)=>{
-    // console.log(e.target.getAttribute('id'));
-    eventSelector(e.target, e.target.value, false);
+
+    const posibleOption = ['crop-x','crop-y'],
+    option              = e.target.getAttribute('id');
+
+    if(posibleOption.includes(option)){
+        eventSelector(e.target, e.target.value, true);
+    } else if(option === 'rotate'){
+        if(e.target.value == ''){
+            e.target.value = 0;
+        }
+    }else{
+        eventSelector(e.target, e.target.value, false);
+    }
 });
 
 controls.addEventListener('input', (e)=>{
-    eventSelector(e.target, e.target.value, true);
+    const posibleOption = ['rotate'],
+    option              = e.target.getAttribute('id');
+
+    if(posibleOption.includes(option) && e.target.value != ''){
+        eventSelector(e.target, e.target.value, false);
+    } else{
+        eventSelector(e.target, e.target.value, true);
+    }
 });
 
 
 const eventSelector = (target, value, updateInputs)=>{
+    justifyImage();
     switch(target.getAttribute('id')){
         case 'format':
             format = (value === 'auto')? '': `/${value}`;
@@ -76,16 +106,6 @@ const eventSelector = (target, value, updateInputs)=>{
 
             resize = (value === '100')? '': `/resize_w/${width}`;
 
-            // TODO
-            // MOVE THIS TO IMG.ONLOAD();
-            if(width >= containerW && height >= containerH){
-                imgContainer.style.justifyContent = 'flex-start';
-                imgContainer.style.alignItems     = 'flex-start';
-            } else {
-                imgContainer.style.justifyContent = 'center';
-                imgContainer.style.alignItems     = 'center';
-            }
-
             if(updateInputs){
                 inputValues[1].innerHTML = `${(value * 100).toFixed(0)}%`;
             }
@@ -97,13 +117,18 @@ const eventSelector = (target, value, updateInputs)=>{
             if (focalPoints.classList.contains('show')){
                 img.addEventListener('click', setFocalPoint);
                 undos[0].classList.add('undo-active');
+                btnCrop.disabled = false;
             } else{
+                undos[0].classList.remove('undo-active');
+                btnCrop.disabled = true;
                 resetFocalPoint();
             }
         break;
         case 'crop-x':
-            value = + value;
+            value = +value;
             cropX = (value >= imgWidth)? imgWidth: value;
+
+            target.value = cropX;
 
             // Active the undo
             undos[1].classList.add('undo-active');
@@ -112,20 +137,26 @@ const eventSelector = (target, value, updateInputs)=>{
             value = + value;
             cropY = (value >= imgHeight)? imgHeight: value;
 
+            target.value = cropY;
             // Active the undo
             undos[1].classList.add('undo-active');
         break;
         case 'crop':
             paramsCrop()
             resetFocalPoint();
+            undos[1].classList.add('undo-active');
+            undos[0].classList.remove('undo-active');
+            btnSet.disabled = true;
+            btnCrop.disabled = true;
+            focalPoints.classList.remove('show');
         break;
         case 'rotate':
             paramsRotate(value);
-
             // Active the undo
             undos[2].classList.add('undo-active');
         break;
         case 'flip':
+            undos[2].classList.add('undo-active');
             paramsFlip();
         break;
         case 'flip-y':
@@ -159,8 +190,7 @@ const eventSelector = (target, value, updateInputs)=>{
         case 'undo-set':
             if(undos[0].classList.contains('undo-active')){
                 resetFocalPoint();
-                // focalPoints.classList.add('show');
-                // undos[0].classList.remove('undo-active');
+                btnSet.disabled = false;
             }
         break;
         case 'undo-crop':
@@ -168,7 +198,8 @@ const eventSelector = (target, value, updateInputs)=>{
                 cropInputX.value = 250;
                 cropInputY.value = 250;
                 paramsCrop(true);
-
+                btnCrop.disabled = true;
+                btnSet.disabled = false;
                 undos[1].classList.remove('undo-active')
             }
         break;
@@ -176,6 +207,7 @@ const eventSelector = (target, value, updateInputs)=>{
             if(undos[2].classList.contains('undo-active')){
                 paramsRotate(0);
                 rotateInput.value = 0;
+                flip = '';
                 undos[2].classList.remove('undo-active');
             }
         break;
@@ -186,6 +218,7 @@ const eventSelector = (target, value, updateInputs)=>{
         setNewUrl(paramsURL);
         setParamsInput(paramsURL);
         loading.classList.remove('d-none');
+        img.classList.add('d-none');
     }
 }
 
@@ -217,6 +250,11 @@ const paramsRotate = (value)=>{
 
 const paramsFlip = ()=>{
     flip = (flip.length > 0)? '': '/flip_flip/1';
+}
+
+const justifyImage = ()=>{
+    imgContainer.style.justifyContent = 'center';
+    imgContainer.style.alignItems     = 'center';
 }
 
 
@@ -254,9 +292,6 @@ const resetFocalPoint = ()=>{
     focalX = 0.50;
     focalX = 0.50;
     setCoordinate(50,50);
-    img.removeEventListener('click', setFocalPoint);
-    focalPoints.classList.remove('show');
-    undos[0].classList.remove('undo-active');
 }
 
 // Copy url
@@ -287,7 +322,23 @@ const setCoordinate = (x,y)=>{
 
 // On Load Image
 img.addEventListener('load', ()=>{
-
+    
+    // TODO
+    // MOVE THIS TO IMG.ONLOAD();
     loading.classList.add('d-none');
+    img.classList.remove('d-none');
+
+    imgWidth  = img.getBoundingClientRect().width,
+    imgHeight = img.getBoundingClientRect().height;
+
+    if(imgWidth >= containerW && imgHeight >= containerH){
+        imgContainer.style.justifyContent = 'flex-start';
+        imgContainer.style.alignItems     = 'flex-start';
+    } else if(imgHeight >= containerH){
+        imgContainer.style.alignItems     = 'flex-start';
+    }else {
+        imgContainer.style.justifyContent = 'center';
+        imgContainer.style.alignItems     = 'center';
+    }
 
 });

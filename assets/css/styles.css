@@ -250,7 +250,7 @@ body{
     position: absolute;
     width: 10px;
     height: 10px;
-    font-size: 25px;
+    font-size: 30px;
     border-radius: 100%;
     left: 50%;
     top: 50%;
@@ -398,6 +398,7 @@ svg.horizontal{
 svg.clip{
     height: 30px;
     width: 30px;
+    z-index: 1;
 }
 
 

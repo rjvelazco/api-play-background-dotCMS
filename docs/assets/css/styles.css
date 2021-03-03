@@ -30,6 +30,7 @@ body{
 .api-container{
     /* width: 1250px; */
     width: 100%;
+    max-width: 1400px;
     height: 860px;
     display: flex;
     justify-content: center;

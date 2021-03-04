@@ -154,7 +154,9 @@ const eventSelector = ({action, input, value, update}, p)=>{
         loading.classList.remove('d-none');
         urlBuilder(p);
         setURL(baseURL, paramsURL);
-        updateParamsInput(p.resize, paramsURL);
+        updateParamsInput(p, paramsURL,);
+    } else if(action === 'zoom'){
+        updateParamsInput(p, paramsURL,);
     }
 }
 
@@ -167,8 +169,10 @@ const setURL = (baseUrl, params)=>{
     img.setAttribute('src', baseUrl+params);
 }
 
-const updateParamsInput = (resize, params)=>{
-    paramsContainer.innerHTML = resize + params;
+const updateParamsInput = (p, params)=>{
+    console.log(p.crop, params);
+    params = params.replace(p.crop, p.crop + p.resize);
+    paramsContainer.innerHTML = params ;
 }
 
 // EVENTS
@@ -391,7 +395,7 @@ clip.addEventListener('click', ()=>{
 
     let clipInput = document.createElement('input');
     
-    clipInput.setAttribute('value', baseURL+paramsURL);
+    clipInput.setAttribute('value', baseURL+paramsContainer.innerHTML);
     document.body.appendChild(clipInput);
     clipInput.select();
 

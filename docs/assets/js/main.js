@@ -50,6 +50,7 @@ let params ={
     HBS     : '',
     filters : '',
     rotate  : '',
+    fp      : '',
     resize  : '',
     crop    : '',
     flip    : '',
@@ -58,6 +59,7 @@ let params ={
 }
 
 let paramsURL = '';
+let cropFlipRotate = '';
 
 let state = {action: '', input : '', value : '', update: false}
 
@@ -68,7 +70,7 @@ controls.addEventListener('click', (e)=>{
 });
 
 controls.addEventListener('change', (e)=>{
-    const actions = ['crop-x','crop-y', 'zoom'];
+    const actions = ['crop-x','crop-y', 'zoom', 'brightness', 'hue', 'saturation'];
     callEvent(actions, e); 
 });
 
@@ -152,8 +154,8 @@ const eventSelector = ({action, input, value, update}, p)=>{
 }
 
 // SET URLS
-const urlBuilder = ({HBS, crop, rotate, flip, quality, format})=>{
-    paramsURL = HBS + crop + rotate + flip + quality + format;
+const urlBuilder = ({HBS, crop, rotate, fp, flip, quality, format})=>{
+    paramsURL = HBS + rotate + flip + crop + fp + quality + format;
 }
 
 const setURL = (baseUrl, params)=>{
@@ -280,7 +282,8 @@ const undoRotateEvent = (p, value)=>{
 
 // SET PARAMETERS
 const paramsCrop = (p,reset)=>{
-    p.crop =(reset)? '': `/crop_w/${cropX}/crop_h/${cropY}/fp/${focalX},${focalY}`;
+    p.crop = (reset)? '': `/crop_w/${cropX}/crop_h/${cropY}`;
+    p.fp   = (reset)? '': `/fp/${focalX},${focalY}`;
 }
 
 const paramsRotate = (p, value)=>{

@@ -408,7 +408,7 @@ clip.addEventListener('click', ()=>{
 
 
 rotateInput.addEventListener('focusout',(e)=>{
-    if(e.target.value == ''){
+    if(e.target.value == '' || isNaN(e.target.value)){
         e.target.value = 0;
     }
 });

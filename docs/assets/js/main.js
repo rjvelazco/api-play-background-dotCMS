@@ -99,7 +99,7 @@ const eventSelector = ({action, input, value, update}, p)=>{
             p.format = (value === 'auto')? '': `/${value}`;
         break;
         case 'quality':
-            p.quality = (value === '100')? '': `/${value}p`;
+            p.quality = (value === '100')? '': `/${value}q`;
             updateInputValue(update, 0, value);
         break;
         case 'zoom':

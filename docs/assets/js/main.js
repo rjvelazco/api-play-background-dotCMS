@@ -72,7 +72,7 @@ controls.addEventListener('click', (e)=>{
 });
 
 controls.addEventListener('change', (e)=>{
-    const actions = ['crop-x','crop-y', 'quality', 'zoom', 'brightness', 'hue', 'saturation'];
+    const actions = ['crop-x','crop-y', 'quality', 'zoom', 'brightness', 'hue', 'saturation', 'format'];
     callEvent(actions, e); 
 });
 

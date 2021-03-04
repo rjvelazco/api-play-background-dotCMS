@@ -1,12 +1,10 @@
-
-// DOM ELEMENTS 
-
 const controls  = document.querySelector('#controls'),
 imgContainer    = document.querySelector('#image-container'),
 img             = document.querySelector('#img'),
 paramsContainer = document.querySelector('#params'),
 focalPoints     = document.querySelector('#focal-point');
 rotateInput     = document.querySelector('#rotate'),
+zoomInput       = document.querySelector('#zoom'),
 cropInputX      = document.querySelector('#crop-x'),
 cropInputY      = document.querySelector('#crop-y'),
 coordinates     = document.querySelectorAll('.coordinate'),
@@ -15,255 +13,345 @@ undos           = document.querySelectorAll('.undo'),
 clip            = document.querySelector('#clip'),
 alert           = document.querySelector('#alert'),
 setbtn          = document.querySelector('#set'),
-loading         = document.querySelector('#loading');
-
-// BOTONS
-const btnCrop   = document.querySelector('#crop'),
+loading         = document.querySelector('#loading'),
+btnCrop         = document.querySelector('#crop'),
 btnSet          = document.querySelector('#set');
-
 
 // BASE URL
 const baseURL = 'https://demo.dotcms.com/contentAsset/image/f67e0a14-b16b-47fc-ae5c-f711333b04c1/image';
 
-const imageRect = img.getBoundingClientRect();
-// ORIGINAL SIZE
-const originalW = imageRect.width,
-originalH       = imageRect.height;
-
-let imgWidth    = imageRect.width;
-imgHeight       = imageRect.height;
-
-// IMAGE CONTAINER SIZE
 const containerW = imgContainer.getBoundingClientRect().width;
-containerH       = imgContainer.getBoundingClientRect().height;
+containerH      = imgContainer.getBoundingClientRect().height;
 
+const imageRect = img.getBoundingClientRect();
+
+// Image Size
+const initialW = imageRect.width,
+initialH      = imageRect.height;
+
+let originalW = imageRect.width,
+originalH     = imageRect.height,
+imgWidth      = imageRect.width;
+imgHeight     = imageRect.height;
 
 // Variables
-let hue = saturation = brightness = 0,
-focalX  = focalY = 0.50,
+let focalX  = focalY = 0.50,
 cropX   = cropY  = 250,
 width   = height = 0;
 
+let HSB = {
+    h: 0,
+    s: 0, 
+    b: 0 
+}
+
 // URL PARAMS 
-let HBS = filters = rotate = resize = crop = flip = quality = format = paramsURL = '';
+let params ={
+    HBS     : '',
+    filters : '',
+    rotate  : '',
+    resize  : '',
+    crop    : '',
+    flip    : '',
+    quality : '',
+    format  : ''
+}
 
+let paramsURL = '';
 
-// Events
+let state = {action: '', input : '', value : '', update: false}
+
+// EVENTLISTENERS
 controls.addEventListener('click', (e)=>{
-    const posibleOption = ['flip','flip-y', 'crop', 'undo-crop', 'undo-rotate'],
-    option              = e.target.getAttribute('id');
-
-    if(posibleOption.includes(option)){
-        eventSelector(e.target, e.target.value, false);
-    }
-    eventSelector(e.target, e.target.value, true);
+   const actions = ['flip','flip-y', 'crop', 'undo-crop', 'undo-rotate'];
+   callEvent(actions, e);
 });
 
 controls.addEventListener('change', (e)=>{
-
-    const posibleOption = ['crop-x','crop-y'],
-    option              = e.target.getAttribute('id');
-
-    if(posibleOption.includes(option)){
-        eventSelector(e.target, e.target.value, true);
-    } else if(option === 'rotate'){
-        if(e.target.value == ''){
-            e.target.value = 0;
-        }
-    }else{
-        eventSelector(e.target, e.target.value, false);
-    }
+    const actions = ['crop-x','crop-y', 'zoom'];
+    callEvent(actions, e); 
 });
 
 controls.addEventListener('input', (e)=>{
-    const posibleOption = ['rotate'],
-    option              = e.target.getAttribute('id');
-
-    if(posibleOption.includes(option) && e.target.value != ''){
-        eventSelector(e.target, e.target.value, false);
-    } else{
-        eventSelector(e.target, e.target.value, true);
-    }
+    const actions = ['rotate'];
+    callEvent(actions, e);
 });
 
+const callEvent = (actions, e)=>{
+    state.action  = e.target.getAttribute('id');
+    state.input   = e.target;
+    state.value   = e.target.value;
+ 
+    state.update  = (actions.includes(state.action))? false: true;
+    
+    eventSelector(state, params);
+}
 
-const eventSelector = (target, value, updateInputs)=>{
-    justifyImage();
-    switch(target.getAttribute('id')){
+// p -> params [Object]
+const eventSelector = ({action, input, value, update}, p)=>{
+
+    switch(action){
         case 'format':
-            format = (value === 'auto')? '': `/${value}`;
+            p.format = (value === 'auto')? '': `/${value}`;
         break;
         case 'quality':
-            quality = (value === '100')? '': `/${value}p`;
-            if(updateInputs){
-                inputValues[0].innerHTML = `${value}%`;
-            }
+            p.quality = (value === '100')? '': `/${value}p`;
+            updateInputValue(update, 0, value);
         break;
         case 'zoom':
-            width   = (originalW * value).toFixed(0);
-            height  = (originalH * value).toFixed(0);
-
-            resize = (value === '100')? '': `/resize_w/${width}`;
-
-            if(updateInputs){
-                inputValues[1].innerHTML = `${(value * 100).toFixed(0)}%`;
-            }
-
+            zoomEvent(p, value);
         break;
         case 'set':
-            focalPoints.classList.toggle('show');
-            if (focalPoints.classList.contains('show')){
-                img.addEventListener('click', setFocalPoint);
-                undos[0].classList.add('undo-active');
-                target.innerHTML = 'Unset';
-            } else{
-                undos[0].classList.remove('undo-active');
-                target.innerHTML = 'Set';
-                resetFocalPoint();
-            }
+            setEvent(input);
         break;
         case 'crop-x':
-            value = +value;
-            cropX = (value >= imgWidth)? imgWidth: value;
-
-            target.value = Math.round(cropX);
-
-            // Active the undo
-            undos[1].classList.add('undo-active');
+            cropX = cropValueEvent(input, value, imgWidth);
         break;
         case 'crop-y':
-            value = + value;
-            cropY = (value >= imgHeight)? imgHeight: value;
-
-            target.value = Math.round(cropY);
-            // Active the undo
-            undos[1].classList.add('undo-active');
+            cropY = cropValueEvent(input, value, imgHeight);
         break;
         case 'crop':
-            paramsCrop()
-            resetFocalPoint();
-            undos[1].classList.add('undo-active');
-            undos[0].classList.remove('undo-active');
-            btnSet.disabled = true;
-            btnCrop.disabled = true;
-            focalPoints.classList.remove('show');
+            cropEvent(p);
         break;
         case 'rotate':
-            paramsRotate(value);
-            // Active the undo
-            undos[2].classList.add('undo-active');
+            rotateEvent(p,value);
         break;
         case 'flip':
-            undos[2].classList.add('undo-active');
-            paramsFlip();
+            p.flip = (p.flip.length > 0)? '': '/flip_flip/1';
+            toggleActiveUndos(true, 2);
         break;
         case 'flip-y':
-            rotateInput.value = (rotateInput.value == 180)? 0: 180;
-            paramsRotate(rotateInput.value);
+            flipYEvent(p, value);
         break;
         case 'brightness':
-            if(updateInputs){
-                inputValues[2].innerHTML = `${value}%`;
-            }
-
-            brightness = scale(value, -100, 100, -1, 1).toFixed(2);
-            paramsHSB(hue, saturation, brightness);
+            brightnessEvent(p, update, value);
         break;
         case 'hue':
-            if(updateInputs){
-                inputValues[3].innerHTML = `${value}%`;
-            }
-
-            hue = scale(value, -100, 100, -1, 1).toFixed(2);
-            paramsHSB(hue, saturation, brightness);
+            hueEvent(p, update, value);
         break;
         case 'saturation':
-            if(updateInputs){
-                inputValues[4].innerHTML = `${value}%`;
-            }
-
-            saturation = scale(value, -100, 100, -1, 1).toFixed(2);
-            paramsHSB(hue, saturation, brightness);
+            saturationEvent(p, update, value);
         break;
         case 'undo-set':
-            if(undos[0].classList.contains('undo-active')){
-                resetFocalPoint();
-                btnSet.disabled = false;
-            }
+            undoSetEvent();
         break;
         case 'undo-crop':
-            if(undos[1].classList.contains('undo-active')){
-                cropInputX.value = 250;
-                cropInputY.value = 250;
-                paramsCrop(true);
-                btnCrop.disabled = true;
-                btnSet.disabled = false;
-                undos[1].classList.remove('undo-active')
-            }
+            undoCropEvent(p);
         break;
         case 'undo-rotate':
-            if(undos[2].classList.contains('undo-active')){
-                paramsRotate(0);
-                rotateInput.value = 0;
-                flip = '';
-                undos[2].classList.remove('undo-active');
-            }
+            undoRotateEvent(p, value);
         break;
     }
 
-    if(!updateInputs){
-        urlBuilder();
-        setNewUrl(paramsURL);
-        setParamsInput(paramsURL);
+    if(!update){
         loading.classList.remove('d-none');
-        // img.classList.add('d-none');
+        urlBuilder(p);
+        setURL(baseURL, paramsURL);
+        updateParamsInput(p.resize, paramsURL);
     }
 }
 
-const urlBuilder = ()=>{
-    paramsURL = `${resize}${HBS}${crop}${rotate}${flip}${quality}${format}`;
+// SET URLS
+const urlBuilder = ({HBS, crop, rotate, flip, quality, format})=>{
+    paramsURL = HBS + crop + rotate + flip + quality + format;
 }
 
-const setNewUrl = (params)=>{
-    img.setAttribute('src', `${baseURL}${params}`)
+const setURL = (baseUrl, params)=>{
+    img.setAttribute('src', baseUrl+params);
 }
 
-const setParamsInput = (params)=>{
-    paramsContainer.innerHTML = params;
+const updateParamsInput = (resize, params)=>{
+    paramsContainer.innerHTML = resize + params;
 }
 
-const paramsHSB = (h,s,b)=>{
-    HBS = (h == 0 && s == 0 && b ==0)
-            ? ''
-            : `/hsb_h/${h}/hsb_s/${s}/hsb_b/${b}`;
+// EVENTS
+const zoomEvent = (p, value)=>{
+    const width = (originalW * value).toFixed(0),
+    height      = (originalH * value).toFixed(0),
+    inputValue  = (value*100).toFixed(0)
+
+    img.style.width  = `${width}px`;
+    img.style.height = `${height}px`;
+    
+    p.resize = (value === '100')? '': `/resize_w/${width}`;
+    
+    imagePosition(width, height);
+    
+    updateInputValue(true, 1, inputValue);
 }
 
-const paramsCrop = (undo = false)=>{
-    crop = (undo)? '': `/crop_w/${cropX}/crop_h/${cropY}/fp/${focalX},${focalY}`;
+const setEvent = (input)=>{
+    focalPoints.classList.toggle('show');
+    const containsShow = focalPoints.classList.contains('show');
+    if(containsShow){
+        img.addEventListener('click', setFocalPoint);
+        input.innerHTML = 'Unset';
+    } else{
+        input.innerHTML = 'Set';
+        resetFocalPoint();
+    }
+    toggleActiveUndos(containsShow, 0);
 }
 
-const paramsRotate = (value)=>{
-    rotate = (value == 0)? '': `/rotate_a/${value}`;
+const cropValueEvent = (input, value, maxValue)=>{
+    let cropValue = (value >= maxValue)? maxValue : value;
+    input.value = Math.round(cropValue);
+    toggleActiveUndos(true, 1);
+    return cropValue;
 }
 
-const paramsFlip = ()=>{
-    flip = (flip.length > 0)? '': '/flip_flip/1';
+const cropEvent = (p)=>{
+    imageDimensionsAuto();
+    toggleActiveUndos(true, 1);
+    toggleActiveUndos(false, 0);
+    
+    resetFocalPoint();
+    
+    originalW = cropX;
+    originalH = cropY;
+
+    btnSet.disabled  = true;
+    btnCrop.disabled = true;
+    btnSet.innerHTML = 'set';
+
+    focalPoints.classList.remove('show');
+    paramsCrop(p, false);
+    resetZoom();
 }
 
-const justifyImage = ()=>{
-    imgContainer.style.justifyContent = 'center';
-    imgContainer.style.alignItems     = 'center';
+const rotateEvent = (p, value)=>{
+    paramsRotate(p, value);
+    toggleActiveUndos(true, 2);
+}
+
+const flipYEvent = (p, value)=>{
+    value = (rotateInput.value == 180)? 0: 180;
+    rotateInput.value = value;
+    paramsRotate(p, value);
+    toggleActiveUndos(true, 2);
+}
+
+const brightnessEvent = (p, update, value)=>{
+    HSB.b = scale(value, -100, 100, -1, 1).toFixed(2);
+    updateInputValue(update, 2, value);
+    paramsHSB(p, HSB);
+}
+
+const hueEvent = (p, update, value)=>{
+    HSB.h = scale(value, -100, 100, -1, 1).toFixed(2);
+    updateInputValue(update, 3, value);
+    paramsHSB(p, HSB);
+}
+
+const saturationEvent = (p, update, value)=>{
+    HSB.s = scale(value, -100, 100, -1, 1).toFixed(2);
+    updateInputValue(update, 4, value);
+    paramsHSB(p, HSB);
+}
+
+const undoSetEvent = ()=>{
+    resetFocalPoint();
+    btnSet.disabled = false;
+}
+
+const undoCropEvent = (p)=>{
+    cropInputX.value = 250;
+    cropInputY.value = 250;
+
+    originalW = initialW;
+    originalH = initialH;
+
+    paramsCrop(p, true);
+    toggleActiveUndos(false, 1);
+
+    btnCrop.disabled = false;
+    btnSet.disabled = false;
+
+    imageDimensionsAuto();
+    resetZoom();
+}
+
+const undoRotateEvent = (p, value)=>{
+    paramsRotate(p, 0);
+    rotateInput.value = 0;
+    p.flip = '';
+    toggleActiveUndos(false, 2);
+}
+
+// SET PARAMETERS
+const paramsCrop = (p,reset)=>{
+    p.crop =(reset)? '': `/crop_w/${cropX}/crop_h/${cropY}/fp/${focalX},${focalY}`;
+}
+
+const paramsRotate = (p, value)=>{
+    p.rotate = (value===0 || value=='')? '': `/rotate_a/${value}`;
+}
+
+const paramsHSB = (p, {h,s,b})=>{
+    const HBS = `/hsb_h/${h}/hsb_s/${s}/hsb_b/${b}`;
+    p.HBS = (h == 0 && s == 0 && b ==0)? '': HBS;
 }
 
 
-// IMG EVENT FOCAL POINT
+// UPDATE INPUT VALUES
+const updateInputValue = (update, index, value)=>{
+    if(update){
+        inputValues[index].innerHTML = `${value}%`;
+    }
+}
+
+const toggleActiveUndos = (active, index)=>{
+    (active)? undos[index].classList.add('undo-active')
+            : undos[index].classList.remove('undo-active');
+
+}
+
+// IMAGE POSITION
+const imagePosition = (width, height)=>{
+    if(width >= containerW && height >= containerH){
+        imgContainer.style.justifyContent = 'flex-start';
+        imgContainer.style.alignItems     = 'flex-start';
+    } else if(height >= containerH){
+        imgContainer.style.alignItems     = 'flex-start';
+    }else {
+        imgContainer.style.justifyContent = 'center';
+        imgContainer.style.alignItems     = 'center';
+    }
+}
+
+const imageDimensionsAuto = ()=>{
+    img.style.width = 'auto';
+    img.style.height = 'auto';
+}
+
+const resetFocalPoint = ()=>{
+    focalPoints.style.left = '50%';
+    focalPoints.style.top  = '50%';
+    setCoordinates(50,50);
+}
+
+const setCoordinates = (x,y)=>{
+    coordinates[0].innerHTML = `${x} <small>X</small>`;
+    coordinates[1].innerHTML = `${y} <small>Y</small>`;
+}
+
+const resetZoom = ()=>{
+    zoomInput.value = 1;
+    inputValues[1].innerHTML = '100%;';
+    params.resize = '';
+}
+
+// MAP SCALE
+const scale = (num, in_min, in_max, out_min, out_max)=>{
+    return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
 
 const setFocalPoint = (e)=>{
-
-    const imgLeft = img.getBoundingClientRect().left,
-    imgTop        = img.getBoundingClientRect().top,
-    imgWidth      = img.getBoundingClientRect().width,
-    imgHeight     = img.getBoundingClientRect().height,
+    const imgBounding = img.getBoundingClientRect();
+    imgLeft       = imgBounding.left,
+    imgTop        = imgBounding.top,
+    imgWidth      = imgBounding.width,
+    imgHeight     = imgBounding.height,
     x             = e.clientX - imgLeft,
     y             = e.clientY - imgTop;
 
@@ -273,26 +361,18 @@ const setFocalPoint = (e)=>{
 
     focalX = scale(x, 0, imgWidth, 0, 1).toFixed(2);
     focalY = scale(y, 0, imgHeight, 0, 1).toFixed(2);
-
-    setCoordinate(Math.round(focalX * 100), Math.round(focalY * 100));
+    console.log(focalX, focalY);
+    setCoordinates(Math.round(focalX * 100), Math.round(focalY * 100));
 }
 
-// MAP SCALE
-const scale = (num, in_min, in_max, out_min, out_max)=>{
-    return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-}
+img.addEventListener('load', ()=>{
+    loading.classList.add('d-none');
+    imgWidth  = img.getBoundingClientRect().width,
+    imgHeight = img.getBoundingClientRect().height;
 
+    imagePosition(imgWidth, imgHeight);
+});
 
-// RESET FOCAL POITN
-const resetFocalPoint = ()=>{
-    focalPoints.style.left = '50%';
-    focalPoints.style.top  = '50%';
-    focalX = 0.50;
-    focalX = 0.50;
-    setCoordinate(50,50);
-}
-
-// Copy url
 clip.addEventListener('click', ()=>{
 
     let clipInput = document.createElement('input');
@@ -312,31 +392,11 @@ clip.addEventListener('click', ()=>{
 
 });
 
-// Set Coordinates
-const setCoordinate = (x,y)=>{
-    coordinates[0].innerHTML = `${x}<small>X</small>`;
-    coordinates[1].innerHTML = `${y}<small>Y</small>`;
-}
 
-// On Load Image
-img.addEventListener('load', ()=>{
-    
-    // TODO
-    // MOVE THIS TO IMG.ONLOAD();
-    loading.classList.add('d-none');
-    // img.classList.remove('d-none');
-
-    imgWidth  = img.getBoundingClientRect().width,
-    imgHeight = img.getBoundingClientRect().height;
-
-    if(imgWidth >= containerW && imgHeight >= containerH){
-        imgContainer.style.justifyContent = 'flex-start';
-        imgContainer.style.alignItems     = 'flex-start';
-    } else if(imgHeight >= containerH){
-        imgContainer.style.alignItems     = 'flex-start';
-    }else {
-        imgContainer.style.justifyContent = 'center';
-        imgContainer.style.alignItems     = 'center';
+rotateInput.addEventListener('focusout',(e)=>{
+    if(e.target.value == ''){
+        e.target.value = 0;
     }
-
 });
+
+console.log('Start');

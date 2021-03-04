@@ -55,11 +55,13 @@ let params ={
     crop    : '',
     flip    : '',
     quality : '',
-    format  : ''
+    format  : '',
+    cropFlipRotate: ''
 }
 
 let paramsURL = '';
 let cropFlipRotate = '';
+let pastRotate = '';
 
 let state = {action: '', input : '', value : '', update: false}
 
@@ -70,7 +72,7 @@ controls.addEventListener('click', (e)=>{
 });
 
 controls.addEventListener('change', (e)=>{
-    const actions = ['crop-x','crop-y', 'zoom', 'brightness', 'hue', 'saturation'];
+    const actions = ['crop-x','crop-y', 'quality', 'zoom', 'brightness', 'hue', 'saturation'];
     callEvent(actions, e); 
 });
 
@@ -120,6 +122,9 @@ const eventSelector = ({action, input, value, update}, p)=>{
         break;
         case 'flip':
             p.flip = (p.flip.length > 0)? '': '/flip_flip/1';
+            p.cropFlipRotate = p.cropFlipRotate.replace('/flip_flip/1', '');
+            p.cropFlipRotate += p.flip;
+            // console.log(cropFlipRotate);
             toggleActiveUndos(true, 2);
         break;
         case 'flip-y':
@@ -141,7 +146,7 @@ const eventSelector = ({action, input, value, update}, p)=>{
             undoCropEvent(p);
         break;
         case 'undo-rotate':
-            undoRotateEvent(p, value);
+            undoRotateEvent(p);
         break;
     }
 
@@ -154,8 +159,8 @@ const eventSelector = ({action, input, value, update}, p)=>{
 }
 
 // SET URLS
-const urlBuilder = ({HBS, crop, rotate, fp, flip, quality, format})=>{
-    paramsURL = HBS + rotate + flip + crop + fp + quality + format;
+const urlBuilder = ({HBS, crop, rotate, flip, quality, format, cropFlipRotate})=>{
+    paramsURL = HBS + cropFlipRotate + quality + format;
 }
 
 const setURL = (baseUrl, params)=>{
@@ -263,31 +268,35 @@ const undoCropEvent = (p)=>{
     originalW = initialW;
     originalH = initialH;
 
+    cropFlipRotate = cropFlipRotate.replace(p.crop, '');
+
     paramsCrop(p, true);
     toggleActiveUndos(false, 1);
 
     btnCrop.disabled = false;
     btnSet.disabled = false;
-
     imageDimensionsAuto();
     resetZoom();
 }
 
-const undoRotateEvent = (p, value)=>{
+const undoRotateEvent = (p)=>{
     paramsRotate(p, 0);
     rotateInput.value = 0;
+    p.cropFlipRotate = p.cropFlipRotate.replace('/flip_flip/1', '');
     p.flip = '';
     toggleActiveUndos(false, 2);
 }
 
 // SET PARAMETERS
-const paramsCrop = (p,reset)=>{
-    p.crop = (reset)? '': `/crop_w/${cropX}/crop_h/${cropY}`;
-    p.fp   = (reset)? '': `/fp/${focalX},${focalY}`;
+const paramsCrop = (p, reset)=>{
+    p.crop = (reset)? '': `/crop_w/${cropX}/crop_h/${cropY}/fp/${focalX},${focalY}`;
+    p.cropFlipRotate += p.crop;
 }
 
 const paramsRotate = (p, value)=>{
-    p.rotate = (value===0 || value=='')? '': `/rotate_a/${value}`;
+    p.cropFlipRotate = p.cropFlipRotate.replace(p.rotate, '');
+    p.rotate   = (value===0 || value=='')? '': `/rotate_a/${value}`;
+    p.cropFlipRotate += (value===0 || value=='')? '': p.rotate;
 }
 
 const paramsHSB = (p, {h,s,b})=>{

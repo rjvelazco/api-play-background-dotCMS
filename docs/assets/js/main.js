@@ -258,6 +258,8 @@ const saturationEvent = (p, update, value)=>{
 
 const undoSetEvent = ()=>{
     resetFocalPoint();
+    focalX = 0.50;
+    focalY = 0.50;
     btnSet.disabled = false;
 }
 
@@ -268,7 +270,7 @@ const undoCropEvent = (p)=>{
     originalW = initialW;
     originalH = initialH;
 
-    cropFlipRotate = cropFlipRotate.replace(p.crop, '');
+    p.cropFlipRotate = p.cropFlipRotate.replace(p.crop, '');
 
     paramsCrop(p, true);
     toggleActiveUndos(false, 1);

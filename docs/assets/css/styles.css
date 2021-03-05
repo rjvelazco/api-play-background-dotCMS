@@ -17,6 +17,9 @@
     --btn-color: #5E7AFF;
     --focal-point: #392F5A;
     --params-color: #19A2F1;
+    --title-magin-bottom: 10px;
+    --group-control-margin-bottom: 20px;
+    --input-height: 32px;
 }
 
 body{
@@ -31,7 +34,7 @@ body{
     /* width: 1250px; */
     width: 100%;
     max-width: 1400px;
-    height: 860px;
+    height: 730px;
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -39,18 +42,17 @@ body{
 }
 
 .controls-container{
-    width: 310px;
+    width: 280px;
     /* height: 500px; */
-    padding: 10px;
-    padding-left: 20px;
+    padding: 12px;
     box-shadow: 5px 0px 5px rgba(0,0,0,.2);
     background: #fff;
     z-index: 2;
 }
 
 .body-container{
-    width: calc(100% - 310px);
-    height: 860px;
+    width: calc(100% - 280px);
+    height: 730px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -110,9 +112,9 @@ body{
     justify-content: center;
     align-items: flex-start;
     flex-direction: column;
-    padding: 10px 5px;
+    /* padding: 10px 5px; */
     padding-bottom: 0px;
-    margin-bottom: 12px;
+    margin-bottom: 20px;
 }
 
 .focal-control-group{
@@ -134,33 +136,39 @@ body{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    overflow: hidden;
-    margin: 10px 0px;
+    /* margin: 10px 0px; */
 }
 
 .crop-group{
-    width: 160px;
+    width: 150px;
+    padding: 0px;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 }
 
 .crop-width,
 .crop-height{
-    width: 75px;
+    width: 65px;
+    height: var(--input-height);
     display: flex;
     background-color:var(--input-background);
     justify-content:center;
     align-items: center;
     border: 1px solid var(--input-border);
-    padding:4px 5px;
+    /* padding:4px 5px; */
     border-radius: 5px;
     color: var(--input-font-color);
+    padding: 0px 5px;
+}
+
+.crop-width{
+    margin-right: 10px;
 }
 
 .coordinates{
-    width: 160px;
-    height: 40px;
+    width: 150px;
+    height: 32px;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -190,19 +198,20 @@ body{
 }
 
 .rotate-control-group-value{
-    width: 80px;
+    width: 90px;
+    height: 32px;
     display: flex;
     background-color:var(--input-background);
     justify-content:center;
     align-items: center;
     border: 1px solid var(--input-border);
-    padding:4px 5px;
+    padding:4px 0;
     border-radius: 5px;
     color: var(--input-font-color);
 }
 
 .rotate-btn-group{
-    width: 125px;
+    width: 105px;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -212,15 +221,19 @@ body{
 /* ELEMENTS */
 
 .title{
-    font-size: 18px;
+    font-size: 14px;
+    height: 14px;
     font-weight: bold;
     color: #333;
-    margin-bottom: 5px;
+    margin-bottom: 12px;
+    /* text-align: top; */
+    /* align-self: flex-start; */
 }
 
 .bigger{
     margin: 0px;
     font-size: 18px;
+    height: auto;
 }
 
 .input-value{
@@ -237,14 +250,17 @@ body{
 }
 
 .crop-input{
-    width: 50px;
-    padding: 4px 0px;
+    height: 98%;
+    width: 90%;
+    padding: 4px 4px;
+    font-size: 14px;
     border:none;
     background-color: var(--input-background);
 }
 
 .rotate-input{
     width: 55px;
+    height: 98%;
     background: var(--input-background);
     border: none;
     padding: 4px 5px;
@@ -308,18 +324,20 @@ body{
 
 select{
     width: 200px;
-    padding: 8px 10px;
+    height: 32px;
+    padding: 0px 10px;
     background: var(--input-background);
     color: #333;
     border: 1px solid var(--input-border);
     border-radius:5px;
-    font-size: 16px;
-    font-weight: bold;
+    /* font-size: 12px; */
+    /* font-weight: bold; */
 }
 
 hr{
     background: #7A7A7A;
     opacity: .5;
+    margin: 20px 0px;
 }
 
 
@@ -332,7 +350,7 @@ input[type="range"]{
     border: 1px solid var(--input-border);
     color: #fff;
     height: 8px;
-    width: 200px;
+    width: 180px;
     margin-right: 10px;
     cursor: pointer;
 }
@@ -376,40 +394,24 @@ select:focus{
 }
 
 .btn{
-    height: 40px;
-    padding: 4px 10px;
-    min-width: 60px;
+    height: 32px;
+    padding: 0px 5px;
+    min-width: 55px;
     font-size: 14px;
     background: var(--btn-color);
     color: #fff;
     border: none;
     border-radius: 4px;
-    margin: 0px 10px;
-}
-
-.btn-rotate{
-    height:40px;
-    width: 45px;
-    /* background-color: var(--input-background); */
-    background: transparent;
-    border: 1px solid var(--input-border);
-    font-size: 14px;
-    padding: 2px 4px;
-    text-align: center;
-    margin: 0px;
+    margin: 0px 0px;
 }
 
 .btn-crop{
     /* width: 52px; */
-    height: 41px;
-    min-width: 60px;
-    padding: 4px 12px;
+    height: 32px;
+    min-width: 55px;
+    padding: 4px 5px;
     border: 1px solid var(--input-border);
     font-size: 14px;
-}
-
-.btn-rotate-img{
-    width: 100%;
 }
 
 .deg-icon{
@@ -417,6 +419,20 @@ select:focus{
     font-size: 20px;
     /* width: 20px; */
 }
+
+.btn.btn-rotate{
+    /* height:var(--input-height); */
+    min-width: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:  50px;
+    background: transparent;
+    border: 1px solid var(--input-border);
+    padding: 2px 0px;
+    overflow: hidden;
+}
+
 
 #clip{
     color: #1E8CCF;
@@ -431,6 +447,10 @@ svg{
 
 svg.horizontal{
     transform: rotate(90deg);
+}
+
+svg.btn-rotate-img{
+    width: 30px;
 }
 
 svg.clip{

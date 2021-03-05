@@ -41,6 +41,8 @@ cropX   = cropY  = 250,
 width   = height = 0,
 qualityV = 100;
 
+let possibleResize = true;
+
 let HSB = {
     h: 0,
     s: 0, 
@@ -95,7 +97,6 @@ const callEvent = (actions, e)=>{
 
 // p -> params [Object]
 const eventSelector = ({action, input, value, update}, p)=>{
-
     switch(action){
         case 'format':
             paramsFormat(p, value, update);
@@ -108,7 +109,9 @@ const eventSelector = ({action, input, value, update}, p)=>{
             }
         break;
         case 'zoom':
-            zoomEvent(p, value);
+            if(possibleResize){
+                zoomEvent(p, value);
+            }
         break;
         case 'set':
             setEvent(input);
@@ -175,7 +178,7 @@ const setURL = (baseUrl, params)=>{
 }
 
 const updateParamsInput = (p, params)=>{
-    params = params.replace(p.crop, p.crop + p.resize);
+    params = params.replace(p.crop,  p.resize + p.crop);
     paramsContainer.innerHTML = params ;
 }
 
@@ -230,7 +233,12 @@ const cropEvent = (p)=>{
     
     focalPoints.classList.remove('show');
     paramsCrop(p, false);
-    resetZoom();
+    // resetZoom();
+    zoomInput.classList.add('lock');
+    zoomInput.disabled = true;
+    params.resize = '';
+    possibleResize = false;
+
     imageDimensionsAuto();
     imgContainer.style.justifyContent = 'center';
     imgContainer.style.alignItems     = 'center';
@@ -332,8 +340,9 @@ const paramsQuality = (p, value)=>{
 }
 
 const paramsCrop = (p, reset)=>{
-    p.crop = (reset)? '': `/crop_w/${cropX}/crop_h/${cropY}/fp/${focalX},${focalY}`;
+    p.crop = (reset)? '': `${p.resize}/crop_w/${cropX}/crop_h/${cropY}/fp/${focalX},${focalY}`;
     p.cropFlipRotate += p.crop;
+    p.resize = '';
 }
 
 const paramsRotate = (p, value)=>{
@@ -392,8 +401,11 @@ const setCoordinates = (x,y)=>{
 
 const resetZoom = ()=>{
     zoomInput.value = 1;
-    inputValues[1].innerHTML = '100%;';
+    inputValues[1].innerHTML = '100%';
     params.resize = '';
+    zoomInput.classList.remove('lock');
+    zoomInput.disabled = false;
+    possibleResize = true;
 }
 
 // MAP SCALE

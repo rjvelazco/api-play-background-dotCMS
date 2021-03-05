@@ -3,6 +3,7 @@ imgContainer    = document.querySelector('#image-container'),
 img             = document.querySelector('#img'),
 paramsContainer = document.querySelector('#params'),
 focalPoints     = document.querySelector('#focal-point');
+qualityRange    = document.querySelector('#quality'),
 rotateInput     = document.querySelector('#rotate'),
 zoomInput       = document.querySelector('#zoom'),
 cropInputX      = document.querySelector('#crop-x'),
@@ -37,7 +38,8 @@ imgHeight     = imageRect.height;
 // Variables
 let focalX  = focalY = 0.50,
 cropX   = cropY  = 250,
-width   = height = 0;
+width   = height = 0,
+qualityV = 100;
 
 let HSB = {
     h: 0,
@@ -54,8 +56,8 @@ let params ={
     resize  : '',
     crop    : '',
     flip    : '',
-    quality : '',
-    format  : '',
+    quality : '_q/100',
+    format  : '/quality',
     cropFlipRotate: ''
 }
 
@@ -96,11 +98,25 @@ const eventSelector = ({action, input, value, update}, p)=>{
 
     switch(action){
         case 'format':
-            p.format = (value === 'auto')? '': `/${value}`;
+            p.format = (value === 'auto')? '/quality': `/${value}`;
+            if(p.format.includes('Png')){
+                p.quality = '';
+                qualityRange.classList.add('lock');
+                qualityRange.disabled = true;
+                qualityRange.value = 100;
+                updateInputValue(update, 0, 100);
+            } else{
+                qualityRange.classList.remove('lock');
+                qualityRange.disabled = false;
+                paramsQuality(p, qualityV);
+            }
         break;
         case 'quality':
-            p.quality = (value === '100')? '': `/${value}q`;
-            updateInputValue(update, 0, value);
+            if(!p.format.includes('Png')){
+                qualityV = value;
+                paramsQuality(p, value);
+                updateInputValue(update, 0, value);
+            }
         break;
         case 'zoom':
             zoomEvent(p, value);
@@ -149,12 +165,12 @@ const eventSelector = ({action, input, value, update}, p)=>{
             undoRotateEvent(p);
         break;
     }
-
+    
+    urlBuilder(p);
+    updateParamsInput(p, paramsURL,);
     if(!update){
         loading.classList.remove('d-none');
-        urlBuilder(p);
         setURL(baseURL, paramsURL);
-        updateParamsInput(p, paramsURL,);
     } else if(action === 'zoom'){
         updateParamsInput(p, paramsURL,);
     }
@@ -162,7 +178,7 @@ const eventSelector = ({action, input, value, update}, p)=>{
 
 // SET URLS
 const urlBuilder = ({HBS, crop, rotate, flip, quality, format, cropFlipRotate})=>{
-    paramsURL = HBS + cropFlipRotate + quality + format;
+    paramsURL = HBS + cropFlipRotate + format + quality;
 }
 
 const setURL = (baseUrl, params)=>{
@@ -170,7 +186,6 @@ const setURL = (baseUrl, params)=>{
 }
 
 const updateParamsInput = (p, params)=>{
-    console.log(p.crop, params);
     params = params.replace(p.crop, p.crop + p.resize);
     paramsContainer.innerHTML = params ;
 }
@@ -294,6 +309,21 @@ const undoRotateEvent = (p)=>{
 }
 
 // SET PARAMETERS
+const paramsQuality = (p, value)=>{
+    if(p.format == '' || p.format =='auto'){
+        p.format  = '/quality';
+        p.quality = `_q/${value}`;
+    } else{
+        p.quality = `_q/${value}`;
+    }
+
+    // if(value == '100'  && p.format.includes('quality')) {
+    //     p.format  = '';
+    //     p.quality = '';
+    // } 
+    
+}
+
 const paramsCrop = (p, reset)=>{
     p.crop = (reset)? '': `/crop_w/${cropX}/crop_h/${cropY}/fp/${focalX},${focalY}`;
     p.cropFlipRotate += p.crop;
@@ -416,5 +446,6 @@ rotateInput.addEventListener('focusout',(e)=>{
         e.target.value = 0;
     }
 });
-
+urlBuilder(params);
+updateParamsInput(params, paramsURL,);
 console.log('Start');

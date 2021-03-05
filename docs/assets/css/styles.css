@@ -334,6 +334,7 @@ input[type="range"]{
     height: 8px;
     width: 200px;
     margin-right: 10px;
+    cursor: pointer;
 }
 
 input[type=range]::-webkit-slider-thumb {
@@ -344,6 +345,16 @@ input[type=range]::-webkit-slider-thumb {
     box-shadow: 1px 1px 2px rgba(0, 0, 0,.4);
     height: 20px;
     width: 20px;
+}
+input[type="range"].lock{
+    background-color: #f2f2f2;
+    cursor: not-allowed;
+    /* color: #000; */
+}
+
+input[type=range].lock::-webkit-slider-thumb{
+    background-color: #f2f2f2;
+    border: 1px solid #f2f2f2;
 }
 
 

@@ -171,7 +171,7 @@
     
     // SET URLS
     const urlBuilder = ({HBS, crop, rotate, flip, quality, format, cropFlipRotate})=>{
-        paramsURL = HBS + cropFlipRotate + format + quality;
+        paramsURL = cropFlipRotate + HBS + format + quality;
     }
     
     const setURL = (baseUrl, params)=>{

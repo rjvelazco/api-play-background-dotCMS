@@ -98,18 +98,7 @@ const eventSelector = ({action, input, value, update}, p)=>{
 
     switch(action){
         case 'format':
-            p.format = (value === 'auto')? '/quality': `/${value}`;
-            if(p.format.includes('Png')){
-                p.quality = '';
-                qualityRange.classList.add('lock');
-                qualityRange.disabled = true;
-                qualityRange.value = 100;
-                updateInputValue(update, 0, 100);
-            } else{
-                qualityRange.classList.remove('lock');
-                qualityRange.disabled = false;
-                paramsQuality(p, qualityV);
-            }
+            paramsFormat(p, value, update);
         break;
         case 'quality':
             if(!p.format.includes('Png')){
@@ -309,6 +298,22 @@ const undoRotateEvent = (p)=>{
 }
 
 // SET PARAMETERS
+const paramsFormat = (p, value, update)=>{
+    p.format = (value === 'auto')? '/quality': `/${value}`;
+    if(p.format.includes('Png')){
+        p.quality = '';
+        qualityV = 100;
+        qualityRange.classList.add('lock');
+        qualityRange.disabled = true;
+        qualityRange.value = 100;
+        updateInputValue(update, 0, 100);
+    } else{
+        qualityRange.classList.remove('lock');
+        qualityRange.disabled = false;
+        paramsQuality(p, qualityV);
+    }
+}
+
 const paramsQuality = (p, value)=>{
     if(p.format == '' || p.format =='auto'){
         p.format  = '/quality';

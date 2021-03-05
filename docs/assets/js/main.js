@@ -33,8 +33,8 @@
     
     let originalW = imageRect.width || 921,
     originalH     = imageRect.height || 621,
-    imgWidth      = imageRect.width;
-    imgHeight     = imageRect.height;
+    imgWidth      = imageRect.width || 921;
+    imgHeight     = imageRect.height || 921;
     
     // Variables
     let focalX  = focalY = 0.50,
@@ -77,7 +77,7 @@
     });
     
     controls.addEventListener('change', (e)=>{
-        const actions = ['crop-x','crop-y', 'quality', 'zoom', 'brightness', 'hue', 'saturation', 'format'];
+        const actions = ['crop-x','crop-y', 'quality', 'brightness', 'hue', 'saturation', 'format'];
         callEvent(actions, e); 
     });
     
@@ -118,6 +118,7 @@
                 setEvent(input);
             break;
             case 'crop-x':
+                console.log(value);
                 cropX = cropValueEvent(input, value, imgWidth);
             break;
             case 'crop-y':
@@ -215,8 +216,18 @@
     }
     
     const cropValueEvent = (input, value, maxValue)=>{
+        value = value;
+        if(value === ''){
+            input.value = '';
+            return 0;
+        } else if(isNaN(value)){
+            value = 0;
+            input.value = '';
+            return value;
+        }
         let cropValue = (value >= maxValue)? maxValue : value;
-        input.value = Math.round(cropValue);
+        input.value = Math.round(cropValue) || 0;
+        console.log('Hola');
         toggleActiveUndos(true, 1);
         return cropValue;
     }
@@ -437,6 +448,12 @@
         console.log(focalX, focalY);
         setCoordinates(Math.round(focalX * 100), Math.round(focalY * 100));
     }
+
+    const resetCropValue = (e)=>{
+        if(e.target.value === ''){
+            e.target.value = 0;
+        }
+    }
     
     img.addEventListener('load', ()=>{
         loading.classList.add('d-none');
@@ -471,6 +488,10 @@
             e.target.value = 0;
         }
     });
+    
+    cropInputX.addEventListener('focusout',resetCropValue);
+    cropInputY.addEventListener('focusout',resetCropValue);
+
     urlBuilder(params);
     updateParamsInput(params, paramsURL,);
     console.log('Start');

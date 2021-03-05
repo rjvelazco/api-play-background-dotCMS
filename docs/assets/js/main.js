@@ -216,7 +216,6 @@ const cropValueEvent = (input, value, maxValue)=>{
 }
 
 const cropEvent = (p)=>{
-    imageDimensionsAuto();
     toggleActiveUndos(true, 1);
     toggleActiveUndos(false, 0);
     
@@ -224,14 +223,17 @@ const cropEvent = (p)=>{
     
     originalW = cropX;
     originalH = cropY;
-
+    
     btnSet.disabled  = true;
     btnCrop.disabled = true;
     btnSet.innerHTML = 'set';
-
+    
     focalPoints.classList.remove('show');
     paramsCrop(p, false);
     resetZoom();
+    imageDimensionsAuto();
+    imgContainer.style.justifyContent = 'center';
+    imgContainer.style.alignItems     = 'center';
 }
 
 const rotateEvent = (p, value)=>{

@@ -31,9 +31,9 @@
     const initialW = imageRect.width,
     initialH      = imageRect.height;
     
-    let originalW = imageRect.width || 921,
+    let originalW = imageRect.width  || 921,
     originalH     = imageRect.height || 621,
-    imgWidth      = imageRect.width || 921;
+    imgWidth      = imageRect.width  || 921;
     imgHeight     = imageRect.height || 921;
     
     // Variables
@@ -65,8 +65,6 @@
     }
     
     let paramsURL = '';
-    let cropFlipRotate = '';
-    let pastRotate = '';
     
     let state = {action: '', input : '', value : '', update: false}
     
@@ -77,7 +75,7 @@
     });
     
     controls.addEventListener('change', (e)=>{
-        const actions = ['crop-x','crop-y', 'quality', 'brightness', 'hue', 'saturation', 'format'];
+        const actions = ['quality', 'brightness', 'hue', 'saturation', 'format'];
         callEvent(actions, e); 
     });
     
@@ -118,7 +116,6 @@
                 setEvent(input);
             break;
             case 'crop-x':
-                console.log(value);
                 cropX = cropValueEvent(input, value, imgWidth);
             break;
             case 'crop-y':
@@ -134,7 +131,6 @@
                 p.flip = (p.flip.length > 0)? '': '/flip_flip/1';
                 p.cropFlipRotate = p.cropFlipRotate.replace('/flip_flip/1', '');
                 p.cropFlipRotate += p.flip;
-                // console.log(cropFlipRotate);
                 toggleActiveUndos(true, 2);
             break;
             case 'flip-y':
@@ -189,8 +185,6 @@
         const width = (originalW * value).toFixed(0),
         height      = (originalH * value).toFixed(0),
         inputValue  = (value*100).toFixed(0)
-        
-        console.log({width, height, originalW, originalH});
     
         img.style.width  = `${width}px`;
         img.style.height = `${height}px`;

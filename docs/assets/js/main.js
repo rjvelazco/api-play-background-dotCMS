@@ -295,6 +295,9 @@
     
         cropX = 250;
         cropY = 250;
+
+        focalX = 0.50;
+        focalY = 0.50;
     
         originalW = initialW;
         originalH = initialH;

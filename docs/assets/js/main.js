@@ -237,7 +237,7 @@
         
         btnSet.disabled  = true;
         btnCrop.disabled = true;
-        btnSet.innerHTML = 'set';
+        btnSet.innerHTML = 'Set';
         
         focalPoints.classList.remove('show');
         paramsCrop(p, false);

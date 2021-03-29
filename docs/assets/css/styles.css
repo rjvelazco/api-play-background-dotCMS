@@ -108,6 +108,13 @@
     width: 100%;
 }
 
+.controls-grid{
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    width: 95%;
+}
+
 select{
     background: var(--input-background);
     border-radius:5px;
@@ -118,31 +125,7 @@ select{
     width: 200px;
 }
 
-.focal-control-group{
-    align-items: center;
-    display:flex;
-    justify-content: space-between;
-    width: 95%;
-}
-
-.crop-control-group{
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    width: 95%;
-}
-
-.rotate-control-group{
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    width: 95%;
-}
-
 .crop-group{
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
     padding: 0px;
     width: 150px;
 }
@@ -299,39 +282,6 @@ select{
     transform: all .2s ease;
     width: 250px;
     z-index: 100;
-}
-
-/* OTHERS STYLES */
-.title{
-    color: #333;
-    font-size: 14px;
-    font-weight: bold;
-    height: 14px;
-    margin-bottom: 12px;
-}
-
-.bigger{
-    font-size: 18px;
-    height: auto;
-    margin: 0px;
-}
-
-.no-transition{
-    transition: none;
-}
-
-.show{
-    display: flex;
-}
-
-.cursor-api-img{
-    cursor: pointer;
-}
-
-hr{
-    background: #7A7A7A;
-    margin: 20px 0px;
-    opacity: .5;
 }
 
 /* RANGE INPUT */
@@ -574,6 +524,39 @@ select:focus{
     box-sizing: content-box; 
 }
 
+/* OTHERS STYLES */
+.title{
+    color: #333;
+    font-size: 14px;
+    font-weight: bold;
+    height: 14px;
+    margin-bottom: 12px;
+}
+
+.bigger{
+    font-size: 18px;
+    height: auto;
+    margin: 0px;
+}
+
+.no-transition{
+    transition: none;
+}
+
+.show{
+    display: flex;
+}
+
+.cursor-api-img{
+    cursor: pointer;
+}
+
+hr{
+    background: #7A7A7A;
+    margin: 20px 0px;
+    opacity: .5;
+}
+
 /* ANIMATIONS */
 @keyframes loader {
     0% {
@@ -615,7 +598,6 @@ select:focus{
     }
 
 }
-
 
 /* @media screen and (max-height: 450px){
     .controls-container{

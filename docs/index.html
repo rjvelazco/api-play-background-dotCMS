@@ -9,10 +9,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 </head>
 <body>
+   <div style="overflow:hidden; max-width: 1400px; margin: auto;">
     <div class="api-container shadow">
         <div class="overlay" id="overlay"></div>
         <div class="controls-container" id="controls">
-            <button class="btn-icon m-0 mb-2 movil-option" id="hide-controls">
+            <button class="btn-icon m-0 mb-2 movil-option cursor-api-img" id="hide-controls">
                 <svg class="icon-back" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
                 </svg>
@@ -43,7 +44,7 @@
             </div>
             <div class="control-group">
                 <span class="title">Focal Points</span>
-                <div class="focal-control-group">
+                <div class="controls-grid">
                     <div class="coordinates">
                         <span class="coordinate">50 <small>X</small></span>
                         <span class="coordinate">50 <small>Y</small></span>
@@ -58,8 +59,8 @@
             </div>
             <div class="control-group">
                 <span class="title">Crop</span>
-                <div class="crop-control-group">
-                    <div class="crop-group">
+                <div class="controls-grid">
+                    <div class="controls-grid crop-group">
                         <div class="crop-width">
                             <input type="text" class="crop-input" id="crop-x" value="250">
                             <small>W</small>
@@ -79,7 +80,7 @@
             </div>
             <div class="control-group">
                 <label for="rotate" class="title">Rotate</label>
-                <div class="rotate-control-group">
+                <div class="controls-grid">
                     <div class="rotate-control-container">
                         <div class="rotate-control-group-value">
                             <input type="text" class="rotate-input" id="rotate" value="0">
@@ -134,7 +135,7 @@
         </div>
         <div class="body-container">
             <div class="url-group-container">
-                <button class="btn-icon movil-option" id="setting">
+                <button class="btn-icon movil-option cursor-api-img" id="setting">
                     <svg class="setting-icons" fill="rgb(30, 140, 207)" viewBox="0 0 100 80" width="40" height="40">
                         <rect width="80" height="10" rx="10"></rect>
                         <rect y="30" width="80" height="10" rx="10"></rect>
@@ -144,8 +145,8 @@
                 <div class="url-container">
                     https://demo.dotcms.com/contentAsset/image/f67e0a14-b16b-47fc-ae5c-f711333b04c1/image<span class="params" id="params"></span>
                 </div>
-                <button class="btn-icon mr-0" id="clip">
-                    <svg  class="clip cursor-api-img" style="color:#1E8CCF;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="160px" height="159px" viewBox="0 0 160 159" version="1.1">
+                <button class="btn-icon mr-0 cursor-api-img" id="clip">
+                    <svg  class="clip" style="color:#1E8CCF;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="160px" height="159px" viewBox="0 0 160 159" version="1.1">
                         <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                             <path d="M41,52 L41,69.1875 L31,69.1875 L31,32.00625 C31,25.217299 36.4699264,19.7224631 43.2466377,19.5599505 L43.5555556,19.55625 L74.723,19.556 L74.7244715,19.5413452 C74.7603264,18.7843827 74.8149561,18.087088 74.8957754,17.3405173 L74.9273248,17.0580308 C76.1433119,6.48598716 82.5005086,0 95.5,0 C104.767189,0 111.176895,3.80749319 114.554635,10.4039248 C116.023427,13.2723472 116.768807,16.0825637 117.102527,19.3197044 L117.125,19.556 L147.444444,19.55625 C154.2598,19.55625 159.831448,24.9497583 159.996247,31.6985666 L160,32.00625 L160,146.55 C160,153.338951 154.530074,158.833787 147.753362,158.9963 L147.444444,159 L43.5555556,159 C36.7402004,159 31.1685523,153.606492 31.0037527,146.857683 L31,146.55 L31,129.0625 L41,129.0625 L41,146.55 C41,147.83374 42.0400601,148.910619 43.3857992,148.994716 L43.5555556,149 L147.444444,149 C148.814382,149 149.909239,147.97447 149.994636,146.709333 L150,146.55 L150,52 L150,52 L41,52 Z M95.5,10 C88.1383875,10 85.6855386,12.2602589 84.9316695,17.6511333 L84.861827,18.2006884 L84.8167154,18.6203186 L84.7784905,19.0377765 L84.7466792,19.461466 L84.7208085,19.8997913 L84.7004052,20.3611565 L84.6849963,20.8539658 L84.6702126,21.6705213 L84.6635661,22.9477544 L84.6666667,24.55625 C84.6666667,27.2450047 82.54436,29.4380681 79.8835563,29.5516305 L79.6666667,29.55625 L63.5555556,29.55625 C55.8518519,29.8520833 51.3333333,33.6666667 50,41 L140,41 C140,38.0020833 138,30 127.614201,29.5615344 L112.333333,29.55625 C109.57191,29.55625 107.333333,27.3176737 107.333333,24.55625 C107.333333,20.3617629 106.933034,17.4601307 105.653698,14.9617002 C104.009505,11.7507354 101.062238,10 95.5,10 Z" id="Combined-Shape" fill="#1E8CCF"/>
                             <path d="M56,63 L100,99 L56,135 L56,112 L0,112 L0,86 L56,86 L56,63 Z" id="Combined-Shape" fill="#1E8CCF"/>
@@ -169,6 +170,7 @@
             </div>
         </div>
     </div>
+   </div>
     <div class="alert alert-message d-none" id="alert" role="alert">
         The URL has been copied
     </div>

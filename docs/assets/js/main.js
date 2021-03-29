@@ -1,9 +1,11 @@
 (()=>{
     const controls  = document.querySelector('#controls'),
+    setting         = document.querySelector('#setting'),
+    hideControls    = document.querySelector('#hide-controls'),
     imgContainer    = document.querySelector('#image-container'),
     img             = document.querySelector('#img'),
     paramsContainer = document.querySelector('#params'),
-    focalPoints     = document.querySelector('#focal-point');
+    focalPoints     = document.querySelector('#focal-point'),
     qualityRange    = document.querySelector('#quality'),
     rotateInput     = document.querySelector('#rotate'),
     zoomInput       = document.querySelector('#zoom'),
@@ -221,7 +223,6 @@
         }
         let cropValue = (value >= maxValue)? maxValue : value;
         input.value = Math.round(cropValue) || 0;
-        console.log('Hola');
         toggleActiveUndos(true, 1);
         return cropValue;
     }
@@ -391,6 +392,8 @@
             imgContainer.style.alignItems     = 'flex-start';
         } else if(height >= containerH){
             imgContainer.style.alignItems     = 'flex-start';
+        }else if(width >= containerW){
+            imgContainer.style.justifyContent = 'flex-start';
         }else {
             imgContainer.style.justifyContent = 'center';
             imgContainer.style.alignItems     = 'center';
@@ -442,7 +445,6 @@
     
         focalX = scale(x, 0, imgWidth, 0, 1).toFixed(2);
         focalY = scale(y, 0, imgHeight, 0, 1).toFixed(2);
-        console.log(focalX, focalY);
         setCoordinates(Math.round(focalX * 100), Math.round(focalY * 100));
     }
 
@@ -491,5 +493,14 @@
 
     urlBuilder(params);
     updateParamsInput(params, paramsURL,);
-    console.log('Start');
-})()
+    imagePosition(originalW,originalH);
+
+    setting.addEventListener('click', ()=>{
+        controls.classList.add('show-controls');
+    });
+
+    hideControls.addEventListener('click', ()=>{
+        controls.classList.remove('show-controls');
+    })
+
+})();

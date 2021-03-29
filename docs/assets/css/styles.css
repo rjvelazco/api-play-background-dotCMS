@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,800;1,600&display=swap');
-
 *{
     margin: 0px;
     padding: 0px;
@@ -22,16 +20,9 @@
     --input-height: 32px;
 }
 
-body{
-    font-family: 'open sans', sans-serif;
-    /* text-align: center; */
-    background: #f2f2f2;
-}
-
 
 /* CONTAINERS */
 .api-container{
-    /* width: 1250px; */
     width: 100%;
     max-width: 1400px;
     height: 730px;
@@ -43,11 +34,12 @@ body{
 
 .controls-container{
     width: 280px;
-    /* height: 500px; */
+    height: 750px;
     padding: 12px;
     box-shadow: 5px 0px 5px rgba(0,0,0,.2);
     background: #fff;
     z-index: 2;
+    transition: all .2s linear;
 }
 
 .body-container{
@@ -81,7 +73,6 @@ body{
 
     background-size:20px 20px;
     background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
-    /* background: #ccc; */
     width: 100%;
     display: flex;
     justify-content: center;
@@ -112,7 +103,6 @@ body{
     justify-content: center;
     align-items: flex-start;
     flex-direction: column;
-    /* padding: 10px 5px; */
     padding-bottom: 0px;
     margin-bottom: 20px;
 }
@@ -136,7 +126,6 @@ body{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* margin: 10px 0px; */
 }
 
 .crop-group{
@@ -156,7 +145,6 @@ body{
     justify-content:center;
     align-items: center;
     border: 1px solid var(--input-border);
-    /* padding:4px 5px; */
     border-radius: 5px;
     color: var(--input-font-color);
     padding: 0px 5px;
@@ -226,8 +214,6 @@ body{
     font-weight: bold;
     color: #333;
     margin-bottom: 12px;
-    /* text-align: top; */
-    /* align-self: flex-start; */
 }
 
 .bigger{
@@ -278,7 +264,6 @@ body{
     overflow: hidden;
     display: flex;
     justify-content: flex-end;
-    /* width: 80%; */
     max-width: 80%;
     white-space:nowrap;
     user-select: none;
@@ -301,6 +286,10 @@ body{
     user-select: none;
 }
 
+.no-transition{
+    transition: none;
+}
+
 .show{
     display: flex;
 }
@@ -311,15 +300,20 @@ body{
 }
 
 .alert-message{
-    position: fixed;
-    bottom: 0%;
-    left: calc(50% - 500px);
-    min-width: 1000px;
+    background: #542FE7;
+    border-radius: 5px 5px 0px 0px;
+    bottom: 0px;
+    color: #fff;
+    left: calc(50% - 125px);
+    padding: 20px 0px;
+    position: fixed !important;
     text-align: center;
     transform: all .2s ease;
+    width: 250px;
+    z-index: 100;
 }
 
-.cursor{
+.cursor-api-img{
     cursor: pointer;
 }
 
@@ -331,8 +325,6 @@ select{
     color: #333;
     border: 1px solid var(--input-border);
     border-radius:5px;
-    /* font-size: 12px; */
-    /* font-weight: bold; */
 }
 
 hr{
@@ -368,7 +360,6 @@ input[type=range]::-webkit-slider-thumb {
 input[type="range"].lock{
     background-color: #f2f2f2;
     cursor: not-allowed;
-    /* color: #000; */
 }
 
 input[type=range].lock::-webkit-slider-thumb{
@@ -394,7 +385,7 @@ select:focus{
     color: var(--undo-color-active);
 }
 
-.btn{
+.btn-api-img{
     height: 32px;
     padding: 0px 5px;
     min-width: 55px;
@@ -404,8 +395,11 @@ select:focus{
     border: none;
     border-radius: 4px;
     margin: 0px 0px;
+    cursor: pointer;
 }
-
+.btn-api-img:focus{
+    outline: none;
+}
 .btn-crop{
     /* width: 52px; */
     height: 32px;
@@ -418,11 +412,9 @@ select:focus{
 .deg-icon{
     display: inline-block;
     font-size: 20px;
-    /* width: 20px; */
 }
 
-.btn.btn-rotate{
-    /* height:var(--input-height); */
+.btn-api-img.btn-rotate{
     min-width: 0px;
     display: flex;
     justify-content: center;
@@ -456,6 +448,8 @@ svg.btn-rotate-img{
 
 svg.clip{
     height: 30px;
+    min-height: 30px;
+    min-width: 30px;
     width: 30px;
     z-index: 1;
 }
@@ -467,7 +461,7 @@ svg.clip{
 }
 
 /* LOADING */
-.loading{
+.loading-api-img{
     position: absolute;
     width: 100%;
     height: 100%;
@@ -479,9 +473,9 @@ svg.clip{
     opacity: .4;
 }
 
-/* LOADER */
 
-.loader div {
+/* LOADER */
+.loader-api-img div {
     position: absolute;
     border-width: 4px;
     border-style: solid;
@@ -490,12 +484,12 @@ svg.clip{
     animation: loader 1s cubic-bezier(0,0.2,0.8,1) infinite;
 }
 
-.loader div:nth-child(1) {
+.loader-api-img div:nth-child(1) {
     border-color: #ae0acf;
     animation-delay: 0s;
 }
 
-.loader div:nth-child(2) {
+.loader-api-img div:nth-child(2) {
     border-color: #542fe7;
     animation-delay: -0.5s;
 }
@@ -508,16 +502,16 @@ svg.clip{
     background: none;
 }
 
-.loader {
+.loader-api-img {
     width: 100%;
     height: 100%;
-    position: relative;
+    position: relative !important;
     transform: translateZ(0) scale(1);
     backface-visibility: hidden;
     transform-origin: 0 0; /* see note above */
 }
 
-.loader div { 
+.loader-api-img div { 
     box-sizing: content-box; 
 }
 
@@ -537,3 +531,91 @@ svg.clip{
         opacity: 0;
     }
 }
+
+/*SVG UNDOS*/
+.undo-div{
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.undo-div svg {
+    width: 17px;
+    height: 16px;
+}
+
+.undo-div svg path{
+    fill:var(--undo-color);
+    position: absolute;
+    z-index: -10;
+}
+
+.undo-div.undo-active svg path{
+    fill: var(--undo-color-active);
+    position: absolute;
+    z-index: -10;
+}
+
+#undo-rotate{
+    color: #f2f2f2;
+}
+
+svg.cursor-api-img{
+    cursor: pointer;
+}
+
+svg.cursor-api-img path{
+    cursor: pointer;
+}
+
+.btn-icon{
+    background: transparent;
+    border:none;
+    height: 30px;
+    width: 30px;
+    z-index: 1;
+}
+
+.setting-icons{
+    width: 30px;
+    height: 30px;
+    position: relative;
+    z-index: -1;
+}
+
+.movil-option{
+    display: none;
+}
+
+.icon-back{
+    width: 25px;
+    height: 25px;
+}
+
+.show-controls{
+    margin-left: 0px !important;
+}
+
+@media screen and (max-width: 850px){
+
+    .url-container{
+        margin: 0px 15px;
+    }
+
+    .movil-option{
+        display: inline-block;
+    }
+
+    .controls-container{
+        z-index: 11;
+        position: absolute;
+        left: 0px;
+        margin-left: -300px;
+    }
+    .body-container{
+        width: 100%;
+    }
+
+}
+

@@ -1,6 +1,7 @@
 (()=>{
     const controls  = document.querySelector('#controls'),
     setting         = document.querySelector('#setting'),
+    overlay         = document.querySelector('#overlay'),
     hideControls    = document.querySelector('#hide-controls'),
     imgContainer    = document.querySelector('#image-container'),
     img             = document.querySelector('#img'),
@@ -497,10 +498,15 @@
 
     setting.addEventListener('click', ()=>{
         controls.classList.add('show-controls');
+        overlay.classList.add('show');
     });
 
-    hideControls.addEventListener('click', ()=>{
+    const hideControlsMovil = ()=>{
         controls.classList.remove('show-controls');
-    })
+        overlay.classList.remove('show');
+    }
+
+    hideControls.addEventListener('click', hideControlsMovil);
+    overlay.addEventListener('click', hideControlsMovil);
 
 })();

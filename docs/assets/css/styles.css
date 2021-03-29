@@ -503,7 +503,7 @@ svg.clip{
     height: 100%;
     position: absolute;
     width:100%;
-    z-index: 1;
+    z-index: 10;
 }
 
 .overlay.show{
@@ -615,3 +615,12 @@ select:focus{
     }
 
 }
+
+
+/* @media screen and (max-height: 450px){
+    .controls-container{
+        height: 100vh;
+        overflow: auto;
+    }
+} */
+

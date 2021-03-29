@@ -347,12 +347,6 @@
         } else{
             p.quality = `_q/${value}`;
         }
-    
-        // if(value == '100'  && p.format.includes('quality')) {
-        //     p.format  = '';
-        //     p.quality = '';
-        // } 
-        
     }
     
     const paramsCrop = (p, reset)=>{

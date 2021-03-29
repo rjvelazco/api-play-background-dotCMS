@@ -97,6 +97,7 @@
     position: relative;
 }
 
+/* CONTROLS */
 .control-group{
     align-items: flex-start;
     display: flex;
@@ -105,6 +106,16 @@
     margin-bottom: 20px;
     padding-bottom: 0px;
     width: 100%;
+}
+
+select{
+    background: var(--input-background);
+    border-radius:5px;
+    border: 1px solid var(--input-border);
+    color: #333;
+    height: 32px;
+    padding: 0px 10px;
+    width: 200px;
 }
 
 .focal-control-group{
@@ -205,23 +216,6 @@
     width: 105px;
 }
 
-
-/* ELEMENTS */
-
-.title{
-    color: #333;
-    font-size: 14px;
-    font-weight: bold;
-    height: 14px;
-    margin-bottom: 12px;
-}
-
-.bigger{
-    font-size: 18px;
-    height: auto;
-    margin: 0px;
-}
-
 .input-value{
     background-color: var(--input-background);
     border-radius: 5px;
@@ -254,21 +248,6 @@
     width: 55px;
 }
 
-.url-container{
-    background: #fff;
-    border-radius: 5px;
-    border: 1px solid var(--input-border);
-    display: flex;
-    font-size: 16px;
-    justify-content: flex-end;
-    margin-right: 15px;
-    max-width: 80%;
-    overflow: hidden;
-    padding: 5px 15px;
-    user-select: none;
-    white-space:nowrap;
-}
-
 .focal-point{
     align-items:center;
     border-radius: 100%;
@@ -286,12 +265,20 @@
     z-index: 10;
 }
 
-.no-transition{
-    transition: none;
-}
-
-.show{
+/* URL CONTAINER */
+.url-container{
+    background: #fff;
+    border-radius: 5px;
+    border: 1px solid var(--input-border);
     display: flex;
+    font-size: 16px;
+    justify-content: flex-end;
+    margin-right: 15px;
+    max-width: 80%;
+    overflow: hidden;
+    padding: 5px 15px;
+    user-select: none;
+    white-space:nowrap;
 }
 
 .params{
@@ -299,6 +286,7 @@
     user-select: none;
 }
 
+/* ALERT MESSAGE */
 .alert-message{
     background: #542FE7;
     border-radius: 5px 5px 0px 0px;
@@ -313,18 +301,31 @@
     z-index: 100;
 }
 
-.cursor-api-img{
-    cursor: pointer;
+/* OTHERS STYLES */
+.title{
+    color: #333;
+    font-size: 14px;
+    font-weight: bold;
+    height: 14px;
+    margin-bottom: 12px;
 }
 
-select{
-    background: var(--input-background);
-    border-radius:5px;
-    border: 1px solid var(--input-border);
-    color: #333;
-    height: 32px;
-    padding: 0px 10px;
-    width: 200px;
+.bigger{
+    font-size: 18px;
+    height: auto;
+    margin: 0px;
+}
+
+.no-transition{
+    transition: none;
+}
+
+.show{
+    display: flex;
+}
+
+.cursor-api-img{
+    cursor: pointer;
 }
 
 hr{
@@ -365,23 +366,7 @@ input[type=range].lock::-webkit-slider-thumb{
     border: 1px solid #f2f2f2;
 }
 
-
-/* REMOVE OUTLINE */
-input:focus,
-select:focus{
-    outline:none;
-}
-
-/* ICONS */
-
-.undo{
-    color: var(--undo-color);
-}
-
-.undo-active{
-    color: var(--undo-color-active);
-}
-
+/* BUTTONS/ICONS */
 .btn-api-img{
     background: var(--btn-color);
     border-radius: 4px;
@@ -394,6 +379,7 @@ select:focus{
     min-width: 55px;
     padding: 0px 5px;
 }
+
 .btn-api-img:focus{
     outline: none;
 }
@@ -404,11 +390,6 @@ select:focus{
     height: 32px;
     min-width: 55px;
     padding: 4px 5px;
-}
-
-.deg-icon{
-    display: inline-block;
-    font-size: 20px;
 }
 
 .btn-api-img.btn-rotate{
@@ -423,11 +404,20 @@ select:focus{
     width:  50px;
 }
 
-
-#clip{
-    color: #1E8CCF;
+.undo{
+    color: var(--undo-color);
 }
 
+.undo-active{
+    color: var(--undo-color-active);
+}
+
+.deg-icon{
+    display: inline-block;
+    font-size: 20px;
+}
+
+/*SVG*/
 svg{
     height: 100%;
     position: relative;
@@ -451,11 +441,83 @@ svg.clip{
     z-index: 1;
 }
 
-
-/* OTHER STYLES */
-.mt-4{
-    margin-top: 10px;
+.undo-div{
+    align-items: center;
+    display: flex;
+    height: 20px;
+    justify-content: center;
+    width: 20px;
 }
+
+.undo-div svg {
+    height: 16px;
+    width: 17px;
+    cursor: pointer;
+}
+
+.undo-div svg path{
+    fill:var(--undo-color);
+    position: absolute;
+    z-index: -10;
+    cursor: pointer;
+}
+
+.undo-div.undo-active svg path{
+    fill: var(--undo-color-active);
+    position: absolute;
+    z-index: -10;
+}
+
+/* MOVIL OPTIONS */
+.btn-icon{
+    background: transparent;
+    border:none;
+    height: 30px;
+    width: 30px;
+    z-index: 1;
+}
+
+.setting-icons{
+    height: 30px;
+    position: relative;
+    width: 30px;
+    z-index: -1;
+}
+
+.movil-option{
+    display: none;
+}
+
+.icon-back{
+    height: 25px;
+    width: 25px;
+}
+
+.show-controls{
+    margin-left: 0px !important;
+}
+
+.overlay{
+    background: rgba(0,0,0,.2);
+    display: none;
+    height: 100%;
+    position: absolute;
+    width:100%;
+    z-index: 1;
+}
+
+.overlay.show{
+    display: inline-block;
+}
+
+
+/* REMOVE OUTLINE */
+button:focus,
+input:focus,
+select:focus{
+    outline:none;
+}
+
 
 /* LOADING */
 .loading-api-img{
@@ -512,6 +574,7 @@ svg.clip{
     box-sizing: content-box; 
 }
 
+/* ANIMATIONS */
 @keyframes loader {
     0% {
         height: 0;
@@ -529,72 +592,8 @@ svg.clip{
     }
 }
 
-/*SVG UNDOS*/
-.undo-div{
-    align-items: center;
-    display: flex;
-    height: 20px;
-    justify-content: center;
-    width: 20px;
-}
 
-.undo-div svg {
-    height: 16px;
-    width: 17px;
-}
-
-.undo-div svg path{
-    fill:var(--undo-color);
-    position: absolute;
-    z-index: -10;
-}
-
-.undo-div.undo-active svg path{
-    fill: var(--undo-color-active);
-    position: absolute;
-    z-index: -10;
-}
-
-#undo-rotate{
-    color: #f2f2f2;
-}
-
-svg.cursor-api-img{
-    cursor: pointer;
-}
-
-svg.cursor-api-img path{
-    cursor: pointer;
-}
-
-.btn-icon{
-    background: transparent;
-    border:none;
-    height: 30px;
-    width: 30px;
-    z-index: 1;
-}
-
-.setting-icons{
-    height: 30px;
-    position: relative;
-    width: 30px;
-    z-index: -1;
-}
-
-.movil-option{
-    display: none;
-}
-
-.icon-back{
-    height: 25px;
-    width: 25px;
-}
-
-.show-controls{
-    margin-left: 0px !important;
-}
-
+/* MEDIA QUERY */
 @media screen and (max-width: 850px){
 
     .url-container{
@@ -615,17 +614,4 @@ svg.cursor-api-img path{
         width: 100%;
     }
 
-}
-
-.overlay{
-    background: rgba(0,0,0,.2);
-    display: none;
-    height: 100%;
-    position: absolute;
-    width:100%;
-    z-index: 1;
-}
-
-.overlay.show{
-    display: inline-block;
 }

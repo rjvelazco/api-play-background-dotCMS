@@ -25,7 +25,7 @@
     // BASE URL
     const baseURL = 'https://demo.dotcms.com/contentAsset/image/f67e0a14-b16b-47fc-ae5c-f711333b04c1/image';
     
-    const containerW = imgContainer.getBoundingClientRect().width;
+    let containerW = imgContainer.getBoundingClientRect().width;
     containerH      = imgContainer.getBoundingClientRect().height;
     
     const imageRect = img.getBoundingClientRect();
@@ -387,14 +387,14 @@
             imgContainer.style.alignItems     = 'flex-start';
         } else if(height >= containerH){
             imgContainer.style.alignItems     = 'flex-start';
-        }else if(width >= containerW){
+        } else if(width >= containerW){
             imgContainer.style.justifyContent = 'flex-start';
-        }else {
+        } else {
             imgContainer.style.justifyContent = 'center';
             imgContainer.style.alignItems     = 'center';
         }
     }
-    
+
     const imageDimensionsAuto = ()=>{
         img.style.width = 'auto';
         img.style.height = 'auto';
@@ -502,5 +502,12 @@
 
     hideControls.addEventListener('click', hideControlsMovil);
     overlay.addEventListener('click', hideControlsMovil);
+
+    window.addEventListener('resize', ()=>{
+        containerW = imgContainer.getBoundingClientRect().width;
+        containerH = imgContainer.getBoundingClientRect().height;
+        imagePosition(imgWidth, imgHeight);
+    });
+
 
 })();

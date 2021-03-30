@@ -592,6 +592,7 @@ hr{
         margin-left: -300px;
         position: absolute;
         z-index: 11;
+        overflow: auto;
     }
     .body-container{
         width: 100%;
